@@ -25,7 +25,7 @@ class GameField {
   Card* SelectedCard = nullptr;
 
   void GenerateField();
-
+  
   sf::Text PairsText;
   sf::Vector3i SelectedCoords;
   Button RefreshButton, HintButton;
@@ -33,7 +33,7 @@ class GameField {
   bool CanClick = true;
   int Pairs = 0;
 
-  const float CardSizeX = 90, CardSizeY = 150, FieldOffsetX = 650,
-              FieldOffsetY = 100, OffsetY = 40, OffsetX = 10;
+  const float CardSizeX = 90, CardSizeY = 130, FieldOffsetX = 650,
+              FieldOffsetY = 150, OffsetY = 40, OffsetX = 10;
   const int FieldHeight = 5, FieldWidth = 6, CardOffsetZY = 7, CardOffsetZX = 3;
 };

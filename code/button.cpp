@@ -17,6 +17,7 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
 
   Back.setRotation(sf::degrees(90));
   Selected.setRotation(sf::degrees(90));
+  Back.setColor(sf::Color(127, 127, 127, 255));
 
   Back.setScale(sf::Vector2f(SizeX, -SizeY));
   Selected.setScale(sf::Vector2f(SizeX, -SizeY));

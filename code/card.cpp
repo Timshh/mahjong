@@ -11,6 +11,7 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
 
   Shadow.setTexture(*manager->GetCardShadow());
   Back.setTexture(*manager->GetCardBack());
+  Back.setColor(sf::Color(245, 245, 245, 255));
   Selected.setTexture(*manager->GetCardSelected());
   Selected.setColor(sf::Color(255, 255, 255, 0));
   Face.setTexture(*manager->GetCard(Type));

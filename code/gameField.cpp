@@ -3,13 +3,15 @@
 GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
     : PairsText(manager->MainFont, "", 40),
       HintButton(window, manager, "Hint", 300, 350),
-      RefreshButton(window, manager, "Refresh", 300, 450)
-{
+      RefreshButton(window, manager, "Refresh", 300, 450){
   Window = window;
   Manager = manager;
   GenerateField();
   CheckPairs();
-  PairsText.setPosition(sf::Vector2f(320, 150));
+  PairsText.setPosition(sf::Vector2f(320, 250));
+  PairsText.setFillColor(sf::Color::Black);
+  PairsText.setOutlineColor(sf::Color(100, 100, 100, 255));
+  PairsText.setOutlineThickness(2);
 }
 
 void GameField::Tick() {
