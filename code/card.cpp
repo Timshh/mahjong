@@ -34,7 +34,7 @@ void Card::Tick() {
 }
 
 void Card::SetLocation(const float x, const float y) {
-  Shadow.setPosition(sf::Vector2f(x, y + ShadowOffset));
+  Shadow.setPosition(sf::Vector2f(x + ShadowOffsetX, y + ShadowOffsetY));
   Back.setPosition(sf::Vector2f(x, y));
   Selected.setPosition(sf::Vector2f(x, y));
   Face.setPosition(sf::Vector2f(x, y));

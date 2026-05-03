@@ -3,6 +3,7 @@
 
 #include "assetManager.h"
 #include "gameField.h"
+#include "button.h"
 
 class Gamemode {
  public:
@@ -14,6 +15,6 @@ class Gamemode {
 
   GamemodeStates State = GamemodeStates::Preparing;
   AssetManager Manager;
+  Button RestartButton;
   std::unique_ptr<GameField> Field;
-  bool CanRestart = true;
 };

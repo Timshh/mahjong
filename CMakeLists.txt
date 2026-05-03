@@ -21,11 +21,13 @@ FetchContent_MakeAvailable(SFML)
 set (SOURCES 
 "code/main.cpp"
 "code/card.cpp"
+"code/button.cpp"
 "code/assetManager.cpp"
 "code/gameField.cpp"
 "code/gamemode.cpp")
 set (HEADERS 
 "code/card.h"
+"code/button.h"
 "code/assetManager.h"
 "code/gameField.h"
 "code/gamemode.h")

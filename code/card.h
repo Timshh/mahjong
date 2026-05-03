@@ -21,5 +21,5 @@ class Card {
   CardTypes Type;
   sf::Sprite Shadow, Back, Selected, Face;
   const float CardSize = 0.125, HighlightedAlpha = 32, SelectedAlpha = 64,
-              HintedAlpha = 128, ShadowOffset = 5;
+              HintedAlpha = 128, ShadowOffsetY = 5, ShadowOffsetX = 2;
 };

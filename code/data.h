@@ -38,7 +38,6 @@ enum class CardTypes {
   Pin8,
   Pin9,
   Pin10,
-  Empty,
   One,
   Two,
   Three,

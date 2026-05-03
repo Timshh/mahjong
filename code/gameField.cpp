@@ -2,33 +2,24 @@
 
 GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
     : PairsText(manager->MainFont, "", 40),
-          TipText(manager->MainFont, "R - Restart, H - Hint, G - Refresh", 40) {
+      HintButton(window, manager, "Hint", 300, 350),
+      RefreshButton(window, manager, "Refresh", 300, 450)
+{
   Window = window;
   Manager = manager;
   GenerateField();
   CheckPairs();
-  PairsText.setPosition(sf::Vector2f(300, 50));
-  TipText.setPosition(sf::Vector2f(50, 250));
+  PairsText.setPosition(sf::Vector2f(320, 150));
 }
 
 void GameField::Tick() {
   if (State == FieldStates::Idle) {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::G)) {
-      if (CanRefresh) {
-        Refresh();
-        CanRefresh = false;
-      }
-    } else {
-      CanRefresh = true;
+    if (RefreshButton.Tick()) {
+      Refresh();
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::H)) {
-      if (CanHint) {
-        Hint();
-        CanHint = false;
-      }
-    } else {
-      CanHint = true;
+    if (HintButton.Tick()) {
+      Hint();
     }
 
     sf::Vector2i mouseCoord = sf::Mouse::getPosition(*Window);
@@ -66,6 +57,9 @@ void GameField::Tick() {
     } else {
       CanClick = true;
     }
+  } else {
+    RefreshButton.Tick();
+    HintButton.Tick();
   }
 
   TickDraw();
@@ -83,7 +77,6 @@ void GameField::TickDraw() {
   }
   PairsText.setString("Pairs: " + std::to_string(Pairs));
   Window->draw(PairsText);
-  Window->draw(TipText);
 }
 
 void GameField::Click(int cardZ, int cardX, int cardY, bool isNewValid) {
@@ -159,7 +152,7 @@ bool GameField::CheckReachable(int cardZ, int cardX, int cardY) {
   if (xPlus && xMinus) {
     reachable = false;
   }
-  
+
   for (int z = cardZ + 1; z < Cards.size(); z++) {
     if (z < Cards.size()) {
       if (Cards[z][cardX][cardY]) {
@@ -246,8 +239,10 @@ void GameField::GenerateField() {
       Cards[currCoord.z][currCoord.y][currCoord.x] =
           new Card(Window, Manager, currType);
       Cards[currCoord.z][currCoord.y][currCoord.x]->SetLocation(
-          currCoord.x * CardSizeX + FieldOffsetX,
-          currCoord.y * CardSizeY + FieldOffsetY - currCoord.z * CardOffsetZ);
+          currCoord.x * CardSizeX + FieldOffsetX - currCoord.z * CardOffsetZX +
+              OffsetX,
+          currCoord.y * CardSizeY + FieldOffsetY - currCoord.z * CardOffsetZY +
+              OffsetY);
       coords.erase(coords.begin() + id);
     }
   }

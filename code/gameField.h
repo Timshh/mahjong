@@ -4,6 +4,7 @@
 #include "assetManager.h"
 #include "card.h"
 #include "data.h"
+#include "button.h"
 
 class GameField {
  public:
@@ -25,13 +26,14 @@ class GameField {
 
   void GenerateField();
 
-  sf::Text PairsText, TipText;
+  sf::Text PairsText;
   sf::Vector3i SelectedCoords;
+  Button RefreshButton, HintButton;
   FieldStates State = FieldStates::Idle;
-  bool CanClick = true, CanRefresh = true, CanHint = true;
+  bool CanClick = true;
   int Pairs = 0;
 
-  const float CardSizeX = 85, CardSizeY = 140, FieldOffsetX = 700,
-              FieldOffsetY = 120;
-  const int FieldHeight = 5, FieldWidth = 6, CardOffsetZ = 5;
+  const float CardSizeX = 90, CardSizeY = 150, FieldOffsetX = 650,
+              FieldOffsetY = 100, OffsetY = 40, OffsetX = 10;
+  const int FieldHeight = 5, FieldWidth = 6, CardOffsetZY = 7, CardOffsetZX = 3;
 };

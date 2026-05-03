@@ -1,6 +1,8 @@
 ﻿#include "gamemode.h"
 
-Gamemode::Gamemode(sf::RenderWindow* window) : Manager(AssetManager()) {
+Gamemode::Gamemode(sf::RenderWindow* window)
+    : Manager(AssetManager()),
+      RestartButton(window, &Manager, "Restart", 300, 250) {
   Window = window;
   Field.reset(new GameField(Window, &Manager));
 }
@@ -10,15 +12,11 @@ void Gamemode::Tick() {
     Window->close();
     return;
   }
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
-    if (CanRestart) {
-      Field.reset(new GameField(Window, &Manager));
-      CanRestart = false;
-    }
-  } else {
-    CanRestart = true;
-  }
+  
   Window->clear();
+  if (RestartButton.Tick()) {
+    Field.reset(new GameField(Window, &Manager));
+  }
   Field->Tick();
   Window->display();
 }
