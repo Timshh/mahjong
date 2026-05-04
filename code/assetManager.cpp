@@ -2,13 +2,11 @@
 
 AssetManager::AssetManager() {
   BG.setRepeated(true);
-  BGSub.setRepeated(true);
 
   bool Opened = true;
 
   Opened &= OpenResource(MainFont, "data/Roboto-Medium.ttf");
-  Opened &= LoadResource(BG, "data/BG.png");
-  Opened &= LoadResource(BGSub, "data/BGSub.png");
+  Opened &= LoadResource(BG, "data/Background.png");
   // Backs
   Opened &= LoadResource(Empty, "data/cards/Back.png");
   Opened &= LoadResource(Shadow, "data/cards/Shadow.png");
@@ -180,8 +178,6 @@ sf::Texture* AssetManager::GetCardBack() { return &Back; }
 sf::Texture* AssetManager::GetCardSelected() { return &Selected; }
 
 sf::Texture* AssetManager::GetBG() { return &BG; }
-
-sf::Texture* AssetManager::GetBGSub() { return &BGSub; }
 
 bool AssetManager::LoadResource(auto& resource, const std::string& path) {
   if (!resource.loadFromFile(path)) {

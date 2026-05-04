@@ -13,10 +13,10 @@ class Gamemode {
  private:
   sf::RenderWindow* Window;
 
-  void DrawBG(const float deltatime);
+  void DrawBG();
 
   sf::Vector2f OffsetMain = sf::Vector2f(0, 0), OffsetSub = sf::Vector2f(0, 0);
-  sf::Sprite BGMain, BGSub;
+  sf::Sprite BG;
   sf::Clock Time;
   GamemodeStates State = GamemodeStates::Preparing;
   AssetManager Manager;

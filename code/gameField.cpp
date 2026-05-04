@@ -10,8 +10,6 @@ GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
   CheckPairs();
   PairsText.setPosition(sf::Vector2f(320, 250));
   PairsText.setFillColor(sf::Color::Black);
-  PairsText.setOutlineColor(sf::Color(100, 100, 100, 255));
-  PairsText.setOutlineThickness(2);
 }
 
 void GameField::Tick() {
