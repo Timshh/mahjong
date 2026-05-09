@@ -16,7 +16,13 @@ FetchContent_Declare(SFML
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM)
+FetchContent_Declare(lunasvg
+    GIT_REPOSITORY https://github.com/sammycage/lunasvg.git
+    GIT_TAG master
+)
+
 FetchContent_MakeAvailable(SFML)
+FetchContent_MakeAvailable(lunasvg)
 
 set (SOURCES 
 "code/main.cpp"
@@ -39,6 +45,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     SFML::Window
     SFML::System
     SFML::Audio
+    lunasvg
 )
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)

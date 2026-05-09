@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <lunasvg.h>
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -19,6 +21,7 @@ class AssetManager {
 
  private:
   bool LoadResource(auto& resource, const std::string& path);
+  bool LoadSVG(auto& resource, const std::string& path);
   bool OpenResource(auto& resource, const std::string& path);
 
   sf::Texture Shadow, Back, Selected, Word1, Word2, Word3, Word4, Word5, Word6,

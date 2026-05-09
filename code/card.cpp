@@ -15,11 +15,6 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   Selected.setTexture(*manager->GetCardSelected());
   Selected.setColor(sf::Color(255, 255, 255, 0));
   Face.setTexture(*manager->GetCard(Type));
-
-  Shadow.setScale(sf::Vector2f(CardSize, CardSize));
-  Back.setScale(sf::Vector2f(CardSize, CardSize));
-  Selected.setScale(sf::Vector2f(CardSize, CardSize));
-  Face.setScale(sf::Vector2f(CardSize, CardSize));
 }
 
 CardTypes Card::GetType() { return Type; }
