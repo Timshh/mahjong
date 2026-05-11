@@ -3,7 +3,7 @@
 GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
     : PairsText(manager->MainFont, "", 40),
       HintButton(window, manager, "Hint", 300, 350),
-      RefreshButton(window, manager, "Refresh", 300, 450){
+      RefreshButton(window, manager, "Refresh", 300, 450) {
   Window = window;
   Manager = manager;
   GenerateField();
@@ -22,7 +22,7 @@ void GameField::Tick() {
       Hint();
     }
 
-    sf::Vector2i mouseCoord = sf::Mouse::getPosition(*Window);
+    /* sf::Vector2i mouseCoord = sf::Mouse::getPosition(*Window);
     sf::Vector2i selectedCoord =
         sf::Vector2i((mouseCoord.y - FieldOffsetY) / CardSizeY,
                      (mouseCoord.x - FieldOffsetX) / CardSizeX);
@@ -44,18 +44,32 @@ void GameField::Tick() {
     if (isCardValid) {
       Cards[currCardZ][selectedCoord.x][selectedCoord.y]->ChangeState(
           CardStates::Highlighted);
-    }
+    }*/
 
+    Clicked = false;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
       if (CanClick) {
-        Click(currCardZ, selectedCoord.x, selectedCoord.y, isCardValid);
-        if (Cards.empty()) {
-          State = FieldStates::Finished;
-        }
+        Clicked = true;
         CanClick = false;
       }
     } else {
       CanClick = true;
+    }
+
+    for (int z = 0; z < Cards.size(); ++z) {
+      for (int y = 0; y < Cards[z].size(); ++y) {
+        for (int x = 0; x < Cards[z][y].size(); ++x) {
+          if (Cards[z][y][x]) {
+            if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
+              Click(z, y, x, true);
+              Clicked = false;
+            }
+          }
+        }
+      }
+    }
+    if (Clicked) {
+      Click(0, 0, 0, false);
     }
   } else {
     RefreshButton.Tick();
@@ -66,20 +80,12 @@ void GameField::Tick() {
 }
 
 void GameField::TickDraw() {
-  for (int z = 0; z < Cards.size(); ++z) {
-    for (int y = 0; y < Cards[z].size(); ++y) {
-      for (Card* card : Cards[z][y]) {
-        if (card) {
-          card->Tick();
-        }
-      }
-    }
-  }
   PairsText.setString("Pairs: " + std::to_string(Pairs));
   Window->draw(PairsText);
 }
 
-void GameField::Click(int cardZ, int cardX, int cardY, bool isNewValid) {
+void GameField::Click(const int cardZ, const int cardX, const int cardY,
+                      const bool isNewValid) {
   if (SelectedCard) {
     if (isNewValid) {
       if (SelectedCard == Cards[cardZ][cardX][cardY]) {

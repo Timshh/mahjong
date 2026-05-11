@@ -30,10 +30,10 @@ class GameField {
   sf::Vector3i SelectedCoords;
   Button RefreshButton, HintButton;
   FieldStates State = FieldStates::Idle;
-  bool CanClick = true;
+  bool CanClick = true, Clicked = false;
   int Pairs = 0;
 
-  const float CardSizeX = 90, CardSizeY = 130, FieldOffsetX = 650,
+  const float CardSizeX = 92, CardSizeY = 122, FieldOffsetX = 650,
               FieldOffsetY = 150, OffsetY = 40, OffsetX = 10;
   const int FieldHeight = 5, FieldWidth = 6, CardOffsetZY = 7, CardOffsetZX = 3;
 };

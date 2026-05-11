@@ -9,6 +9,8 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   Window = window;
   Type = type;
 
+  ImageOffset = manager->ImageOffset;
+
   Shadow.setTexture(*manager->GetCardShadow());
   Back.setTexture(*manager->GetCardBack());
   Back.setColor(sf::Color(230, 230, 230, 255));
@@ -19,7 +21,19 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
 
 CardTypes Card::GetType() { return Type; }
 
-void Card::Tick() {
+bool Card::Tick(const bool reachable, const bool click) {
+  bool result = false;
+  if (reachable && IsMouseOnCard()) {
+    if (State == CardStates::Idle) {
+      ChangeState(CardStates::Highlighted);
+    }
+    if (click) {
+      if (State != CardStates::Selected) {
+        result = true;
+        ChangeState(CardStates::Selected);
+      }
+    }
+  }
   Window->draw(Shadow);
   Window->draw(Back);
   Window->draw(Selected);
@@ -27,13 +41,14 @@ void Card::Tick() {
   if (State == CardStates::Highlighted) {
     ChangeState(CardStates::Idle);
   }
+  return result;
 }
 
 void Card::SetLocation(const float x, const float y) {
   Shadow.setPosition(sf::Vector2f(x + ShadowOffsetX, y + ShadowOffsetY));
   Back.setPosition(sf::Vector2f(x, y));
   Selected.setPosition(sf::Vector2f(x, y));
-  Face.setPosition(sf::Vector2f(x, y));
+  Face.setPosition(sf::Vector2f(x + ImageOffset.x, y + ImageOffset.y));
 }
 
 void Card::ChangeType(const CardTypes type, AssetManager* manager) {
@@ -70,4 +85,13 @@ void Card::ChangeState(CardStates state) {
       Selected.setColor(sf::Color(255, 255, 255, HighlightedAlpha));
       break;
   }
+}
+
+bool Card::IsMouseOnCard() {
+  sf::Vector2i mouse = sf::Mouse::getPosition();
+
+  if (Back.getGlobalBounds().contains(sf::Vector2f(mouse.x, mouse.y))) {
+    return true;
+  }
+  return false;
 }

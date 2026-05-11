@@ -8,47 +8,47 @@ AssetManager::AssetManager() {
   Opened &= OpenResource(MainFont, "data/Roboto-Medium.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
   // Backs
-  Opened &= LoadSVG(Empty, "data/cards/Back.svg");
-  Opened &= LoadSVG(Shadow, "data/cards/Shadow.svg");
-  Opened &= LoadSVG(Back, "data/cards/Back.svg");
-  Opened &= LoadSVG(Selected, "data/cards/Selected.svg");
+  Opened &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
+  Opened &= LoadSVG(Shadow, "data/cards/Shadow.svg", CardSize);
+  Opened &= LoadSVG(Back, "data/cards/Back.svg", CardSize);
+  Opened &= LoadSVG(Selected, "data/cards/Selected.svg", CardSize);
   // Cards
-  Opened &= LoadSVG(Word1, "data/cards/Word1.svg");
-  Opened &= LoadSVG(Word2, "data/cards/Word2.svg");
-  Opened &= LoadSVG(Word3, "data/cards/Word3.svg");
-  Opened &= LoadSVG(Word4, "data/cards/Word4.svg");
-  Opened &= LoadSVG(Word5, "data/cards/Word5.svg");
-  Opened &= LoadSVG(Word6, "data/cards/Word6.svg");
-  Opened &= LoadSVG(Word7, "data/cards/Word7.svg");
-  Opened &= LoadSVG(Word8, "data/cards/Word8.svg");
-  Opened &= LoadSVG(Word9, "data/cards/Word9.svg");
-  Opened &= LoadSVG(Word10, "data/cards/Word10.svg");
-  Opened &= LoadSVG(Num1, "data/cards/Num1.svg");
-  Opened &= LoadSVG(Num2, "data/cards/Num2.svg");
-  Opened &= LoadSVG(Num3, "data/cards/Num3.svg");
-  Opened &= LoadSVG(Num4, "data/cards/Num4.svg");
-  Opened &= LoadSVG(Num5, "data/cards/Num5.svg");
-  Opened &= LoadSVG(Num6, "data/cards/Num6.svg");
-  Opened &= LoadSVG(Num7, "data/cards/Num7.svg");
-  Opened &= LoadSVG(Num8, "data/cards/Num8.svg");
-  Opened &= LoadSVG(Num9, "data/cards/Num9.svg");
-  Opened &= LoadSVG(Num10, "data/cards/Num10.svg");
-  Opened &= LoadSVG(Pin1, "data/cards/Pin1.svg");
-  Opened &= LoadSVG(Pin2, "data/cards/Pin2.svg");
-  Opened &= LoadSVG(Pin3, "data/cards/Pin3.svg");
-  Opened &= LoadSVG(Pin4, "data/cards/Pin4.svg");
-  Opened &= LoadSVG(Pin5, "data/cards/Pin5.svg");
-  Opened &= LoadSVG(Pin6, "data/cards/Pin6.svg");
-  Opened &= LoadSVG(Pin7, "data/cards/Pin7.svg");
-  Opened &= LoadSVG(Pin8, "data/cards/Pin8.svg");
-  Opened &= LoadSVG(Pin9, "data/cards/Pin9.svg");
-  Opened &= LoadSVG(Pin10, "data/cards/Pin10.svg");
-  Opened &= LoadSVG(One, "data/cards/One.svg");
-  Opened &= LoadSVG(Two, "data/cards/Two.svg");
-  Opened &= LoadSVG(Three, "data/cards/Three.svg");
-  Opened &= LoadSVG(Four, "data/cards/Four.svg");
-  Opened &= LoadSVG(Five, "data/cards/Five.svg");
-  Opened &= LoadSVG(Six, "data/cards/Six.svg");
+  Opened &= LoadSVG(Word1, "data/cards/Word1.svg", ImageSize);
+  Opened &= LoadSVG(Word2, "data/cards/Word2.svg", ImageSize);
+  Opened &= LoadSVG(Word3, "data/cards/Word3.svg", ImageSize);
+  Opened &= LoadSVG(Word4, "data/cards/Word4.svg", ImageSize);
+  Opened &= LoadSVG(Word5, "data/cards/Word5.svg", ImageSize);
+  Opened &= LoadSVG(Word6, "data/cards/Word6.svg", ImageSize);
+  Opened &= LoadSVG(Word7, "data/cards/Word7.svg", ImageSize);
+  Opened &= LoadSVG(Word8, "data/cards/Word8.svg", ImageSize);
+  Opened &= LoadSVG(Word9, "data/cards/Word9.svg", ImageSize);
+  Opened &= LoadSVG(Word10, "data/cards/Word10.svg", ImageSize);
+  Opened &= LoadSVG(Num1, "data/cards/Num1.svg", ImageSize);
+  Opened &= LoadSVG(Num2, "data/cards/Num2.svg", ImageSize);
+  Opened &= LoadSVG(Num3, "data/cards/Num3.svg", ImageSize);
+  Opened &= LoadSVG(Num4, "data/cards/Num4.svg", ImageSize);
+  Opened &= LoadSVG(Num5, "data/cards/Num5.svg", ImageSize);
+  Opened &= LoadSVG(Num6, "data/cards/Num6.svg", ImageSize);
+  Opened &= LoadSVG(Num7, "data/cards/Num7.svg", ImageSize);
+  Opened &= LoadSVG(Num8, "data/cards/Num8.svg", ImageSize);
+  Opened &= LoadSVG(Num9, "data/cards/Num9.svg", ImageSize);
+  Opened &= LoadSVG(Num10, "data/cards/Num10.svg", ImageSize);
+  Opened &= LoadSVG(Pin1, "data/cards/Pin1.svg", ImageSize);
+  Opened &= LoadSVG(Pin2, "data/cards/Pin2.svg", ImageSize);
+  Opened &= LoadSVG(Pin3, "data/cards/Pin3.svg", ImageSize);
+  Opened &= LoadSVG(Pin4, "data/cards/Pin4.svg", ImageSize);
+  Opened &= LoadSVG(Pin5, "data/cards/Pin5.svg", ImageSize);
+  Opened &= LoadSVG(Pin6, "data/cards/Pin6.svg", ImageSize);
+  Opened &= LoadSVG(Pin7, "data/cards/Pin7.svg", ImageSize);
+  Opened &= LoadSVG(Pin8, "data/cards/Pin8.svg", ImageSize);
+  Opened &= LoadSVG(Pin9, "data/cards/Pin9.svg", ImageSize);
+  Opened &= LoadSVG(Pin10, "data/cards/Pin10.svg", ImageSize);
+  Opened &= LoadSVG(One, "data/cards/One.svg", ImageSize);
+  Opened &= LoadSVG(Two, "data/cards/Two.svg", ImageSize);
+  Opened &= LoadSVG(Three, "data/cards/Three.svg", ImageSize);
+  Opened &= LoadSVG(Four, "data/cards/Four.svg", ImageSize);
+  Opened &= LoadSVG(Five, "data/cards/Five.svg", ImageSize);
+  Opened &= LoadSVG(Six, "data/cards/Six.svg", ImageSize);
 
   if (!Opened) {
     throw std::runtime_error("Failed to load data");
@@ -179,13 +179,13 @@ sf::Texture* AssetManager::GetCardSelected() { return &Selected; }
 
 sf::Texture* AssetManager::GetBG() { return &BG; }
 
-bool AssetManager::LoadSVG(auto& resource, const std::string& path) {
+bool AssetManager::LoadSVG(auto& resource, const std::string& path, const sf::Vector2i size) {
   auto document = lunasvg::Document::loadFromFile(path);
   if (!document) {
     std::cerr << "Failed to load: " << path << "\n";
     return false;
   }
-  auto bitmap = document->renderToBitmap(75, 100);
+  auto bitmap = document->renderToBitmap(size.x, size.y);
   std::vector<std::uint8_t> pixels(bitmap.width() * bitmap.height() * 4);
 
   const auto* src = bitmap.data();
