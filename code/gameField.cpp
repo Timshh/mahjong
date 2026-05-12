@@ -8,7 +8,7 @@ GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
   Manager = manager;
   GenerateField();
   CheckPairs();
-  PairsText.setPosition(sf::Vector2f(320, 250));
+  PairsText.setPosition(sf::Vector2f(320, 265));
   PairsText.setFillColor(sf::Color::Black);
 }
 
@@ -21,30 +21,6 @@ void GameField::Tick() {
     if (HintButton.Tick()) {
       Hint();
     }
-
-    /* sf::Vector2i mouseCoord = sf::Mouse::getPosition(*Window);
-    sf::Vector2i selectedCoord =
-        sf::Vector2i((mouseCoord.y - FieldOffsetY) / CardSizeY,
-                     (mouseCoord.x - FieldOffsetX) / CardSizeX);
-
-    bool isCardValid = false;
-    int currCardZ = 0;
-    if (selectedCoord.x < FieldWidth && selectedCoord.x >= 0 &&
-        selectedCoord.y < FieldWidth && selectedCoord.y >= 0) {
-      for (int z = 0; z < Cards.size(); ++z) {
-        if (Cards[z][selectedCoord.x][selectedCoord.y]) {
-          if (CheckReachable(z, selectedCoord.x, selectedCoord.y)) {
-            isCardValid = true;
-            currCardZ = z;
-          }
-        }
-      }
-    }
-
-    if (isCardValid) {
-      Cards[currCardZ][selectedCoord.x][selectedCoord.y]->ChangeState(
-          CardStates::Highlighted);
-    }*/
 
     Clicked = false;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {

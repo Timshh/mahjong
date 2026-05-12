@@ -3,6 +3,7 @@
 Card::Card(sf::RenderWindow* window, AssetManager* manager,
            const CardTypes type)
     : Shadow(manager->Empty),
+      Outline(manager->Empty),
       Back(manager->Empty),
       Selected(manager->Empty),
       Face(manager->Empty) {
@@ -10,8 +11,10 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   Type = type;
 
   ImageOffset = manager->ImageOffset;
+  OutlineOffset = manager->OutlineOffset;
 
   Shadow.setTexture(*manager->GetCardShadow());
+  Outline.setTexture(*manager->GetCardOutline());
   Back.setTexture(*manager->GetCardBack());
   Back.setColor(sf::Color(230, 230, 230, 255));
   Selected.setTexture(*manager->GetCardSelected());
@@ -35,6 +38,7 @@ bool Card::Tick(const bool reachable, const bool click) {
     }
   }
   Window->draw(Shadow);
+  Window->draw(Outline);
   Window->draw(Back);
   Window->draw(Selected);
   Window->draw(Face);
@@ -46,6 +50,7 @@ bool Card::Tick(const bool reachable, const bool click) {
 
 void Card::SetLocation(const float x, const float y) {
   Shadow.setPosition(sf::Vector2f(x + ShadowOffsetX, y + ShadowOffsetY));
+  Outline.setPosition(sf::Vector2f(x + OutlineOffset.x, y + OutlineOffset.y));
   Back.setPosition(sf::Vector2f(x, y));
   Selected.setPosition(sf::Vector2f(x, y));
   Face.setPosition(sf::Vector2f(x + ImageOffset.x, y + ImageOffset.y));

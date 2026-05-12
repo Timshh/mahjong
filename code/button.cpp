@@ -7,13 +7,13 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
       ButtonText(manager->MainFont, text, 40) {
   Window = window;
 
-  Back.setTexture(*manager->GetCardBack());
-  Selected.setTexture(*manager->GetCardSelected());
+  Back.setTexture(*manager->GetButton());
+  Selected.setTexture(*manager->GetButtonSelected());
   Selected.setColor(sf::Color(255, 255, 255, 0));
 
   Back.setPosition(sf::Vector2f(x, y));
   Selected.setPosition(sf::Vector2f(x, y));
-  ButtonText.setPosition(sf::Vector2f(x + 20, y + 10));
+  ButtonText.setPosition(sf::Vector2f(x + 20, y + 20));
 
   Back.setRotation(sf::degrees(90));
   Selected.setRotation(sf::degrees(90));

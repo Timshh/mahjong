@@ -35,5 +35,5 @@ class GameField {
 
   const float CardSizeX = 92, CardSizeY = 122, FieldOffsetX = 650,
               FieldOffsetY = 150, OffsetY = 40, OffsetX = 10;
-  const int FieldHeight = 5, FieldWidth = 6, CardOffsetZY = 7, CardOffsetZX = 3;
+  const int FieldHeight = 5, FieldWidth = 6, CardOffsetZY = 5, CardOffsetZX = 5;
 };
