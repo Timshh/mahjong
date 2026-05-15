@@ -2,13 +2,11 @@
 
 Button::Button(sf::RenderWindow* window, AssetManager* manager,
                const std::string text, const float x, const float y)
-    : Back(manager->Empty),
-      Selected(manager->Empty),
+    : Back(*manager->GetButton()),
+      Selected(*manager->GetButtonSelected()),
       ButtonText(manager->MainFont, text, 40) {
   Window = window;
 
-  Back.setTexture(*manager->GetButton());
-  Selected.setTexture(*manager->GetButtonSelected());
   Selected.setColor(sf::Color(255, 255, 255, 0));
 
   Back.setPosition(sf::Vector2f(x, y));
@@ -19,8 +17,8 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
   Selected.setRotation(sf::degrees(90));
   Back.setColor(sf::Color(230, 230, 230, 255));
 
-  Back.setScale(sf::Vector2f(SizeX, -SizeY));
-  Selected.setScale(sf::Vector2f(SizeX, -SizeY));
+  Back.setScale(sf::Vector2f(1, -1));
+  Selected.setScale(sf::Vector2f(1, -1));
   ButtonText.setFillColor(sf::Color::Black);
 }
 

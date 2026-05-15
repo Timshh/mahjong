@@ -244,7 +244,7 @@ void GameField::GenerateField() {
       }
     }
   }
-  while (!coords.empty()) {
+  while (coords.size() >= 2) {
     CardTypes currType =
         static_cast<CardTypes>(rand() % static_cast<int>(CardTypes::COUNT));
     for (int i = 0; i <= 1; i++) {

@@ -21,8 +21,8 @@ class Card {
   bool IsMouseOnCard();
   CardStates State = CardStates::Idle;
   CardTypes Type;
-  sf::Sprite Shadow, Outline, Back, Selected, Face;
+  sf::Sprite Shadow, Outline, ShadowOutline, Back, Selected, Face;
   const float HighlightedAlpha = 32, SelectedAlpha = 64,
-              HintedAlpha = 128, ShadowOffsetY = 5, ShadowOffsetX = 5;
-  sf::Vector2i ImageOffset, OutlineOffset;
+              HintedAlpha = 128;
+  sf::Vector2f ImageOffset, ShadowOffset, OutlineOffset;
 };

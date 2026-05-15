@@ -9,8 +9,9 @@ AssetManager::AssetManager() {
   Opened &= LoadResource(BG, "data/Background.png");
   // Backs
   Opened &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
-  Opened &= LoadSVG(Shadow, "data/cards/Shadow.svg", CardSize);
   Opened &= LoadSVG(Outline, "data/cards/Shadow.svg", OutlineSize);
+  Opened &= LoadSVG(Shadow, "data/cards/Back.svg", ShadowSize);
+  Opened &= LoadSVG(ShadowOutline, "data/cards/Shadow.svg", ShadowOutlineSize);
   Opened &= LoadSVG(Back, "data/cards/Back.svg", CardSize);
   Opened &= LoadSVG(Selected, "data/cards/Selected.svg", CardSize);
   Opened &= LoadSVG(Button, "data/cards/Back.svg", ButtonSize);
@@ -174,6 +175,8 @@ sf::Texture* AssetManager::GetCard(const CardTypes type) {
   }
 }
 
+sf::Texture* AssetManager::GetShadowOutline() { return &ShadowOutline; }
+
 sf::Texture* AssetManager::GetCardShadow() { return &Shadow; }
 
 sf::Texture* AssetManager::GetCardOutline() { return &Outline; }
@@ -195,18 +198,9 @@ bool AssetManager::LoadSVG(auto& resource, const std::string& path, const sf::Ve
     return false;
   }
   auto bitmap = document->renderToBitmap(size.x, size.y);
-  std::vector<std::uint8_t> pixels(bitmap.width() * bitmap.height() * 4);
-
-  const auto* src = bitmap.data();
-
-  for (int i = 0; i < bitmap.width() * bitmap.height(); ++i) {
-    pixels[i * 4 + 0] = src[i * 4 + 2];
-    pixels[i * 4 + 1] = src[i * 4 + 1];
-    pixels[i * 4 + 2] = src[i * 4 + 0];
-    pixels[i * 4 + 3] = src[i * 4 + 3];
-  }
-  resource.resize(sf::Vector2u(bitmap.width(), bitmap.height()));
-  resource.update(pixels.data());
+  bitmap.convertToRGBA();
+  resource.resize(sf::Vector2u(size.x, size.y));
+  resource.update(bitmap.data());
   return true;
 }
 

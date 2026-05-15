@@ -2,24 +2,22 @@
 
 Card::Card(sf::RenderWindow* window, AssetManager* manager,
            const CardTypes type)
-    : Shadow(manager->Empty),
-      Outline(manager->Empty),
-      Back(manager->Empty),
-      Selected(manager->Empty),
-      Face(manager->Empty) {
+    : Shadow(*manager->GetCardShadow()),
+      Outline(*manager->GetCardOutline()),
+      ShadowOutline(*manager->GetShadowOutline()),
+      Back(*manager->GetCardBack()),
+      Selected(*manager->GetCardSelected()),
+      Face(*manager->GetCard(type)) {
   Window = window;
   Type = type;
 
   ImageOffset = manager->ImageOffset;
   OutlineOffset = manager->OutlineOffset;
+  ShadowOffset = manager->ShadowOffset;
 
-  Shadow.setTexture(*manager->GetCardShadow());
-  Outline.setTexture(*manager->GetCardOutline());
-  Back.setTexture(*manager->GetCardBack());
   Back.setColor(sf::Color(230, 230, 230, 255));
-  Selected.setTexture(*manager->GetCardSelected());
+  Shadow.setColor(sf::Color(100, 100, 100, 255));
   Selected.setColor(sf::Color(255, 255, 255, 0));
-  Face.setTexture(*manager->GetCard(Type));
 }
 
 CardTypes Card::GetType() { return Type; }
@@ -37,6 +35,7 @@ bool Card::Tick(const bool reachable, const bool click) {
       }
     }
   }
+  Window->draw(ShadowOutline);
   Window->draw(Shadow);
   Window->draw(Outline);
   Window->draw(Back);
@@ -51,8 +50,10 @@ bool Card::Tick(const bool reachable, const bool click) {
 void Card::SetLocation(const float x, const float y,
                        const sf::Vector2i coords) {
   Coords = coords;
-  Shadow.setPosition(sf::Vector2f(x + ShadowOffsetX, y + ShadowOffsetY));
+  Shadow.setPosition(sf::Vector2f(x + ShadowOffset.x, y + ShadowOffset.y));
   Outline.setPosition(sf::Vector2f(x + OutlineOffset.x, y + OutlineOffset.y));
+  ShadowOutline.setPosition(sf::Vector2f(x + OutlineOffset.x + ShadowOffset.x,
+                                         y + OutlineOffset.y + ShadowOffset.y));
   Back.setPosition(sf::Vector2f(x, y));
   Selected.setPosition(sf::Vector2f(x, y));
   Face.setPosition(sf::Vector2f(x + ImageOffset.x, y + ImageOffset.y));
