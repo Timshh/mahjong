@@ -33,7 +33,8 @@ class GameField {
   bool CanClick = true, Clicked = false;
   int Pairs = 0;
 
-  const float CardSizeX = 92, CardSizeY = 122, FieldOffsetX = 650,
-              FieldOffsetY = 150, OffsetY = 40, OffsetX = 10;
-  const int FieldHeight = 5, FieldWidth = 6, CardOffsetZY = 5, CardOffsetZX = 5;
+  const float CardSizeX = 92/2, CardSizeY = 122/2, FieldOffsetX = 600,
+              FieldOffsetY = 100, OffsetY = 40, OffsetX = 10,
+              CardOffsetZY = 5 / 2, CardOffsetZX = 5 / 2;
+  const int FieldHeight = 10, FieldWidth = 14;
 };

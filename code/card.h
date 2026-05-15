@@ -10,9 +10,10 @@ class Card {
 
   CardTypes GetType();
   bool Tick(const bool reachable, const bool click);
-  void SetLocation(const float x, const float y);
+  void SetLocation(const float x, const float y, const sf::Vector2i coords);
   void ChangeType(const CardTypes type, AssetManager* manager);
   void ChangeState(const CardStates state);
+  sf::Vector2i Coords;
 
  private:
   sf::RenderWindow* Window;

@@ -33,12 +33,14 @@ void GameField::Tick() {
     }
 
     for (int z = 0; z < Cards.size(); ++z) {
-      for (int y = 0; y < Cards[z].size(); ++y) {
-        for (int x = 0; x < Cards[z][y].size(); ++x) {
+      for (int x = 0; x < FieldWidth; ++x) {
+        for (int y = 0; y < FieldWidth; ++y) {
           if (Cards[z][y][x]) {
-            if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
-              Click(z, y, x, true);
-              Clicked = false;
+            if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+              if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
+                Click(z, y, x, true);
+                Clicked = false;
+              }
             }
           }
         }
@@ -71,8 +73,15 @@ void GameField::Click(const int cardZ, const int cardX, const int cardY,
         delete SelectedCard;
         delete Cards[cardZ][cardX][cardY];
 
-        Cards[cardZ][cardX][cardY] = nullptr;
-        Cards[SelectedCoords.x][SelectedCoords.y][SelectedCoords.z] = nullptr;
+        Cards[cardZ][cardX][cardY] = Cards[cardZ][cardX + 1][cardY] =
+            Cards[cardZ][cardX][cardY + 1] =
+                Cards[cardZ][cardX + 1][cardY + 1] = nullptr;
+        Cards[SelectedCoords.x][SelectedCoords.y][SelectedCoords.z] =
+            Cards[SelectedCoords.x][SelectedCoords.y + 1][SelectedCoords.z] =
+                Cards[SelectedCoords.x][SelectedCoords.y]
+                     [SelectedCoords.z + 1] =
+                         Cards[SelectedCoords.x][SelectedCoords.y + 1]
+                              [SelectedCoords.z + 1] = nullptr;
 
         SelectedCard = nullptr;
         CheckPairs();
@@ -103,8 +112,10 @@ void GameField::CheckPairs() {
     for (int y = 0; y < Cards[z].size(); ++y) {
       for (int x = 0; x < Cards[z][y].size(); ++x) {
         if (Cards[z][y][x]) {
-          if (CheckReachable(z, y, x)) {
-            pairVector[static_cast<int>(Cards[z][y][x]->GetType())] += 1;
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+            if (CheckReachable(z, y, x)) {
+              pairVector[static_cast<int>(Cards[z][y][x]->GetType())] += 1;
+            }
           }
         }
       }
@@ -119,14 +130,20 @@ bool GameField::CheckReachable(int cardZ, int cardX, int cardY) {
   bool reachable = true;
   bool xMinus = false, xPlus = false;
 
-  if (cardY < FieldWidth - 1) {
-    if (Cards[cardZ][cardX][cardY + 1]) {
+  if (cardY < FieldWidth - 2) {
+    if (Cards[cardZ][cardX][cardY + 2]) {
+      xMinus = true;
+    }
+    if (Cards[cardZ][cardX + 1][cardY + 2]) {
       xMinus = true;
     }
   }
 
   if (cardY > 0) {
     if (Cards[cardZ][cardX][cardY - 1]) {
+      xPlus = true;
+    }
+    if (Cards[cardZ][cardX + 1][cardY - 1]) {
       xPlus = true;
     }
   }
@@ -137,7 +154,8 @@ bool GameField::CheckReachable(int cardZ, int cardX, int cardY) {
 
   for (int z = cardZ + 1; z < Cards.size(); z++) {
     if (z < Cards.size()) {
-      if (Cards[z][cardX][cardY]) {
+      if (Cards[z][cardX][cardY] || Cards[z][cardX + 1][cardY] ||
+          Cards[z][cardX][cardY + 1] || Cards[z][cardX + 1][cardY + 1]) {
         reachable = false;
       }
     }
@@ -153,8 +171,10 @@ void GameField::Refresh() {
     for (int y = 0; y < Cards[z].size(); ++y) {
       for (int x = 0; x < Cards[z][y].size(); ++x) {
         if (Cards[z][y][x]) {
-          refreshBuffer.push_back(Cards[z][y][x]);
-          refreshBufferIDs.push_back(sf::Vector3i(z, y, x));
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+            refreshBuffer.push_back(Cards[z][y][x]);
+            refreshBufferIDs.push_back(sf::Vector3i(z, y, x));
+          }
         }
       }
     }
@@ -180,8 +200,10 @@ void GameField::Hint() {
       for (int y = 0; y < Cards[z].size(); ++y) {
         for (int x = 0; x < Cards[z][y].size(); ++x) {
           if (Cards[z][y][x]) {
-            if (CheckReachable(z, y, x)) {
-              checkList.push_back(Cards[z][y][x]);
+            if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+              if (CheckReachable(z, y, x)) {
+                checkList.push_back(Cards[z][y][x]);
+              }
             }
           }
         }
@@ -207,8 +229,18 @@ void GameField::GenerateField() {
     Cards[z].resize(FieldWidth);
     for (int x = 0; x < Cards[z].size(); ++x) {
       Cards[z][x].resize(FieldWidth);
-      for (int y = 0; y < Cards[z][x].size(); ++y) {
-        coords.push_back(sf::Vector3f(x, y, z));
+      if (x % 4 > 1) {
+        for (int y = 0; y < Cards[z][x].size() - 1; ++y) {
+          if (y % 2 == 0 && x % 2 == 0 && x < Cards[z].size() - 1) {
+            coords.push_back(sf::Vector3f(x, y, z));
+          }
+        }
+      } else {
+        for (int y = 1; y < Cards[z][x].size() - 1; ++y) {
+          if (y % 2 == 1 && x % 2 == 0 && x < Cards[z].size() - 1) {
+            coords.push_back(sf::Vector3f(x, y, z));
+          }
+        }
       }
     }
   }
@@ -224,7 +256,12 @@ void GameField::GenerateField() {
           currCoord.x * CardSizeX + FieldOffsetX - currCoord.z * CardOffsetZX +
               OffsetX,
           currCoord.y * CardSizeY + FieldOffsetY - currCoord.z * CardOffsetZY +
-              OffsetY);
+              OffsetY,
+          sf::Vector2i(currCoord.x, currCoord.y));
+      Cards[currCoord.z][currCoord.y + 1][currCoord.x] =
+          Cards[currCoord.z][currCoord.y][currCoord.x + 1] =
+              Cards[currCoord.z][currCoord.y + 1][currCoord.x + 1] =
+                  Cards[currCoord.z][currCoord.y][currCoord.x];
       coords.erase(coords.begin() + id);
     }
   }

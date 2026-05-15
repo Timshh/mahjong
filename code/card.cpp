@@ -48,7 +48,9 @@ bool Card::Tick(const bool reachable, const bool click) {
   return result;
 }
 
-void Card::SetLocation(const float x, const float y) {
+void Card::SetLocation(const float x, const float y,
+                       const sf::Vector2i coords) {
+  Coords = coords;
   Shadow.setPosition(sf::Vector2f(x + ShadowOffsetX, y + ShadowOffsetY));
   Outline.setPosition(sf::Vector2f(x + OutlineOffset.x, y + OutlineOffset.y));
   Back.setPosition(sf::Vector2f(x, y));
