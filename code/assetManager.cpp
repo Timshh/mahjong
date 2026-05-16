@@ -5,17 +5,13 @@ AssetManager::AssetManager() {
 
   bool Opened = true;
 
-  Opened &= OpenResource(MainFont, "data/Roboto-Medium.ttf");
+  Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
   // Backs
   Opened &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
-  Opened &= LoadSVG(Outline, "data/cards/Shadow.svg", OutlineSize);
   Opened &= LoadSVG(Shadow, "data/cards/Back.svg", ShadowSize);
-  Opened &= LoadSVG(ShadowOutline, "data/cards/Shadow.svg", ShadowOutlineSize);
   Opened &= LoadSVG(Back, "data/cards/Back.svg", CardSize);
-  Opened &= LoadSVG(Selected, "data/cards/Selected.svg", CardSize);
   Opened &= LoadSVG(Button, "data/cards/Back.svg", ButtonSize);
-  Opened &= LoadSVG(ButtonSelected, "data/cards/Selected.svg", ButtonSize);
   // Cards
   Opened &= LoadSVG(Word1, "data/cards/Word1.svg", ImageSize);
   Opened &= LoadSVG(Word2, "data/cards/Word2.svg", ImageSize);
@@ -175,19 +171,11 @@ sf::Texture* AssetManager::GetCard(const CardTypes type) {
   }
 }
 
-sf::Texture* AssetManager::GetShadowOutline() { return &ShadowOutline; }
-
 sf::Texture* AssetManager::GetCardShadow() { return &Shadow; }
-
-sf::Texture* AssetManager::GetCardOutline() { return &Outline; }
 
 sf::Texture* AssetManager::GetCardBack() { return &Back; }
 
-sf::Texture* AssetManager::GetCardSelected() { return &Selected; }
-
 sf::Texture* AssetManager::GetButton() { return &Button; }
-
-sf::Texture* AssetManager::GetButtonSelected() { return &ButtonSelected; }
 
 sf::Texture* AssetManager::GetBG() { return &BG; }
 

@@ -3,22 +3,18 @@
 Button::Button(sf::RenderWindow* window, AssetManager* manager,
                const std::string text, const float x, const float y)
     : Back(*manager->GetButton()),
-      Selected(*manager->GetButtonSelected()),
       ButtonText(manager->MainFont, text, 40) {
   Window = window;
 
-  Selected.setColor(sf::Color(255, 255, 255, 0));
+  Back.setColor(NormalColor);
 
   Back.setPosition(sf::Vector2f(x, y));
-  Selected.setPosition(sf::Vector2f(x, y));
   ButtonText.setPosition(sf::Vector2f(x + 20, y + 20));
 
   Back.setRotation(sf::degrees(90));
-  Selected.setRotation(sf::degrees(90));
   Back.setColor(sf::Color(230, 230, 230, 255));
 
   Back.setScale(sf::Vector2f(1, -1));
-  Selected.setScale(sf::Vector2f(1, -1));
   ButtonText.setFillColor(sf::Color::Black);
 }
 
@@ -27,26 +23,25 @@ bool Button::Tick() {
   if (IsMouseOnButton()) {
     if (!Overlap) {
       Overlap = true;
-      Selected.setColor(sf::Color(255, 255, 255, OverlapAlpha));
+      Back.setColor(HighlightedColor);
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
       if (!Pressed) {
         Pressed = true;
         result = true;
-        Selected.setColor(sf::Color(255, 255, 255, ClickedAlpha));
+        Back.setColor(SelectedColor);
       }
     } else {
       Pressed = false;
-      Selected.setColor(sf::Color(255, 255, 255, OverlapAlpha));
+      Back.setColor(HighlightedColor);
     }
   } else {
     if (Overlap) {
       Overlap = false;
-      Selected.setColor(sf::Color(255, 255, 255, 0));
+      Back.setColor(NormalColor);
     }
   }
   Window->draw(Back);
-  Window->draw(Selected);
   Window->draw(ButtonText);
 
   return result;

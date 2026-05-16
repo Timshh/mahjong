@@ -4,6 +4,7 @@
 #include "assetManager.h"
 #include "card.h"
 #include "data.h"
+#include "forms.h"
 #include "button.h"
 
 class GameField {
@@ -33,8 +34,8 @@ class GameField {
   bool CanClick = true, Clicked = false;
   int Pairs = 0;
 
-  const float CardSizeX = 92/2, CardSizeY = 122/2, FieldOffsetX = 600,
-              FieldOffsetY = 100, OffsetY = 40, OffsetX = 10,
-              CardOffsetZY = 15 / 2, CardOffsetZX = 15 / 2;
-  const int FieldHeight = 4, FieldWidth = 14;
+  const float CardSizeX = 92/2, CardSizeY = 122/2, FieldOffsetX = 250,
+              FieldOffsetY = 0, OffsetY = 40, OffsetX = 10,
+              CardOffsetZY = 19 / 2, CardOffsetZX = 19 / 2;
+  const int FieldHeight = 5, FieldWidth = 30;
 };

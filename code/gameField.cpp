@@ -2,13 +2,13 @@
 
 GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
     : PairsText(manager->MainFont, "", 40),
-      HintButton(window, manager, "Hint", 300, 350),
-      RefreshButton(window, manager, "Refresh", 300, 450) {
+      HintButton(window, manager, "Hint", 50, 240),
+      RefreshButton(window, manager, "Refresh", 50, 340) {
   Window = window;
   Manager = manager;
   GenerateField();
   CheckPairs();
-  PairsText.setPosition(sf::Vector2f(320, 265));
+  PairsText.setPosition(sf::Vector2f(60, 155));
   PairsText.setFillColor(sf::Color::Black);
 }
 
@@ -223,12 +223,18 @@ void GameField::Hint() {
 }
 
 void GameField::GenerateField() {
-  std::vector<sf::Vector3f> coords;
+  std::vector<sf::Vector3i> coords;
   Cards.resize(FieldHeight);
   for (int z = 0; z < Cards.size(); ++z) {
     Cards[z].resize(FieldWidth);
     for (int x = 0; x < Cards[z].size(); ++x) {
       Cards[z][x].resize(FieldWidth);
+    }
+  }
+  coords = FormMahjongTurtle;
+  // Generator
+  /* for (int z = 0; z < Cards.size(); ++z) {
+    for (int x = 0; x < Cards[z].size(); ++x) {
       if (x % 4 > 1) {
         for (int y = 0; y < Cards[z][x].size() - 1; ++y) {
           if (y % 2 == 0 && x % 2 == 0 && x < Cards[z].size() - 1) {
@@ -243,13 +249,14 @@ void GameField::GenerateField() {
         }
       }
     }
-  }
+  }*/
+
   while (coords.size() >= 2) {
     CardTypes currType =
         static_cast<CardTypes>(rand() % static_cast<int>(CardTypes::COUNT));
     for (int i = 0; i <= 1; i++) {
       int id = rand() % coords.size();
-      sf::Vector3f currCoord = coords[id];
+      sf::Vector3i currCoord = coords[id];
       Cards[currCoord.z][currCoord.y][currCoord.x] =
           new Card(Window, Manager, currType);
       Cards[currCoord.z][currCoord.y][currCoord.x]->SetLocation(

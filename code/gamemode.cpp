@@ -2,7 +2,7 @@
 
 Gamemode::Gamemode(sf::RenderWindow* window)
     : Manager(AssetManager()),
-      RestartButton(window, &Manager, "Restart", 300, 150),
+      RestartButton(window, &Manager, "Restart", 50, 40),
       BG(Manager.Empty) {
   Window = window;
   Field.reset(new GameField(Window, &Manager));

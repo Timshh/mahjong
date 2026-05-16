@@ -51,3 +51,8 @@ enum class CardStates {
   Idle,
   Highlighted, Selected, Hinted
 };
+
+const sf::Color NormalColor = sf::Color(230, 230, 230, 255),
+                HighlightedColor = sf::Color(230, 230, 210, 255),
+                SelectedColor = sf::Color(230, 230, 190, 255),
+                HintedColor = sf::Color(230, 230, 170, 255);

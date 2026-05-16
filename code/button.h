@@ -18,6 +18,5 @@ class Button {
 
   bool Pressed = false, Overlap = false;
   sf::Text ButtonText;
-  sf::Sprite Back, Selected;
-  const float OverlapAlpha = 16, ClickedAlpha = 32;
+  sf::Sprite Back;
 };
