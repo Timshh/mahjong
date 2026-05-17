@@ -9,7 +9,7 @@
 
 class GameField {
  public:
-  GameField(sf::RenderWindow* window, AssetManager* manager);
+  GameField(sf::RenderWindow* const window, AssetManager* const manager, const MahjongForms form);
 
   void Tick();
   void TickDraw();
@@ -33,9 +33,10 @@ class GameField {
   FieldStates State = FieldStates::Idle;
   bool CanClick = true, Clicked = false;
   int Pairs = 0;
+  MahjongForms Form;
 
-  const float CardSizeX = 92/2, CardSizeY = 122/2, FieldOffsetX = 250,
-              FieldOffsetY = 0, OffsetY = 40, OffsetX = 10,
+  const float CardSizeX = 92/2, CardSizeY = 122/2, OffsetY = 40, OffsetX = 10,
               CardOffsetZY = 19 / 2, CardOffsetZX = 19 / 2;
-  const int FieldHeight = 5, FieldWidth = 30;
+  float FieldOffsetX = 250, FieldOffsetY = 0; 
+  int FieldHeight, FieldWidth;
 };

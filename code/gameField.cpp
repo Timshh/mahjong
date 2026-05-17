@@ -1,11 +1,13 @@
 ﻿#include "gameField.h"
 
-GameField::GameField(sf::RenderWindow* window, AssetManager* manager)
+GameField::GameField(sf::RenderWindow* const window,
+                     AssetManager* const manager, const MahjongForms form)
     : PairsText(manager->MainFont, "", 40),
       HintButton(window, manager, "Hint", 50, 240),
       RefreshButton(window, manager, "Refresh", 50, 340) {
   Window = window;
   Manager = manager;
+  Form = form;
   GenerateField();
   CheckPairs();
   PairsText.setPosition(sf::Vector2f(60, 155));
@@ -223,6 +225,11 @@ void GameField::Hint() {
 }
 
 void GameField::GenerateField() {
+  FieldHeight = Forms[Form].SizeZ;
+  FieldWidth = Forms[Form].SizeY;
+  FieldOffsetX = Forms[Form].FieldOffsetX;
+  FieldOffsetY = Forms[Form].FieldOffsetY;
+
   std::vector<sf::Vector3i> coords;
   Cards.resize(FieldHeight);
   for (int z = 0; z < Cards.size(); ++z) {
@@ -231,25 +238,32 @@ void GameField::GenerateField() {
       Cards[z][x].resize(FieldWidth);
     }
   }
-  coords = FormMahjongTurtle;
-  // Generator
-  /* for (int z = 0; z < Cards.size(); ++z) {
-    for (int x = 0; x < Cards[z].size(); ++x) {
-      if (x % 4 > 1) {
-        for (int y = 0; y < Cards[z][x].size() - 1; ++y) {
-          if (y % 2 == 0 && x % 2 == 0 && x < Cards[z].size() - 1) {
-            coords.push_back(sf::Vector3f(x, y, z));
-          }
-        }
-      } else {
-        for (int y = 1; y < Cards[z][x].size() - 1; ++y) {
-          if (y % 2 == 1 && x % 2 == 0 && x < Cards[z].size() - 1) {
-            coords.push_back(sf::Vector3f(x, y, z));
+
+  switch (Form) {
+    case MahjongForms::Wave:
+      // Generator
+      for (int z = 0; z < Cards.size(); ++z) {
+        for (int x = 0; x < Cards[z].size(); ++x) {
+          if (x % 4 > 1) {
+            for (int y = 0; y < Cards[z][x].size() - 1; ++y) {
+              if (y % 2 == 0 && x % 2 == 0 && x < Cards[z].size() - 1) {
+                coords.push_back(sf::Vector3i(x, y, z));
+              }
+            }
+          } else {
+            for (int y = 1; y < Cards[z][x].size() - 1; ++y) {
+              if (y % 2 == 1 && x % 2 == 0 && x < Cards[z].size() - 1) {
+                coords.push_back(sf::Vector3i(x, y, z));
+              }
+            }
           }
         }
       }
-    }
-  }*/
+      break;
+    case MahjongForms::Turtle:
+      coords = Forms[Form].Shape;
+      break;
+  }
 
   while (coords.size() >= 2) {
     CardTypes currType =

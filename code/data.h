@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-enum class GamemodeStates{ Preparing, Idle, GameOver };
+enum class GameStates { Idle, Pause };
 
 enum class FieldStates {
 	Idle,
