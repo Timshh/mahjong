@@ -10,7 +10,8 @@ class Card {
 
   CardTypes GetType();
   bool Tick(const bool reachable, const bool click);
-  void SetLocation(const float x, const float y, const sf::Vector2i coords);
+  void SetLocation(const float x, const float y, const sf::Vector2i coords,
+                   const sf::Color heightColor);
   void ChangeType(const CardTypes type, AssetManager* manager);
   void ChangeState(const CardStates state);
   sf::Vector2i Coords;
@@ -23,4 +24,5 @@ class Card {
   CardTypes Type;
   sf::Sprite Edge, Shadow, Back, Face;
   sf::Vector2f ImageOffset, EdgeOffset, BackOffset, ShadowOffset;
+  sf::Color HeightColor;
 };

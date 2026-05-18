@@ -48,6 +48,10 @@ bool Button::Tick() {
 }
 
 bool Button::IsMouseOnButton() {
+  if (!Window->hasFocus()) {
+    return false;
+  }
+
   sf::Vector2i mouse = sf::Mouse::getPosition();
 
   if (Back.getGlobalBounds().contains(sf::Vector2f(mouse.x, mouse.y))) {

@@ -25,6 +25,7 @@ void GameField::Tick() {
     }
 
     Clicked = false;
+
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
       if (CanClick) {
         Clicked = true;
@@ -278,7 +279,9 @@ void GameField::GenerateField() {
               OffsetX,
           currCoord.y * CardSizeY + FieldOffsetY - currCoord.z * CardOffsetZY +
               OffsetY,
-          sf::Vector2i(currCoord.x, currCoord.y));
+          sf::Vector2i(currCoord.x, currCoord.y),
+          sf::Color((4 - currCoord.z) * 20 + 155, (4 - currCoord.z) * 20 + 155,
+                    (4 - currCoord.z) * 20 + 155));
       Cards[currCoord.z][currCoord.y + 1][currCoord.x] =
           Cards[currCoord.z][currCoord.y][currCoord.x + 1] =
               Cards[currCoord.z][currCoord.y + 1][currCoord.x + 1] =

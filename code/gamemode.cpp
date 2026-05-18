@@ -41,13 +41,15 @@ void Gamemode::Tick() {
         if (ResumeButton.Tick()) {
           State = GameStates::Idle;
         } else {
-          if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-            if (CanEscape) {
-              State = GameStates::Idle;
-              CanEscape = false;
+          if (Window->hasFocus()) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+              if (CanEscape) {
+                State = GameStates::Idle;
+                CanEscape = false;
+              }
+            } else {
+              CanEscape = true;
             }
-          } else {
-            CanEscape = true;
           }
         }
       }
@@ -56,13 +58,15 @@ void Gamemode::Tick() {
       if (PauseButton.Tick()) {
         State = GameStates::Pause;
       } else {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-          if (CanEscape) {
-            State = GameStates::Pause;
-            CanEscape = false;
+        if (Window->hasFocus()) {
+          if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+            if (CanEscape) {
+              State = GameStates::Pause;
+              CanEscape = false;
+            }
+          } else {
+            CanEscape = true;
           }
-        } else {
-          CanEscape = true;
         }
       }
       Field->Tick();

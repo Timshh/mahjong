@@ -1,12 +1,12 @@
 ﻿#include "assetManager.h"
 
 AssetManager::AssetManager() {
-  BG.setRepeated(true);
 
   bool Opened = true;
 
   Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
+  BG.setRepeated(true);
   // Backs
   Opened &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
   Opened &= LoadSVG(Shadow, "data/cards/Back.svg", ShadowSize);

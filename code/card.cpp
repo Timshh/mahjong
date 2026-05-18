@@ -13,10 +13,6 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   ShadowOffset = manager->ShadowOffset;
   EdgeOffset = manager->EdgeOffset;
   BackOffset = manager->BackOffset;
-
-  Back.setColor(NormalColor);
-  Edge.setColor(sf::Color(150, 150, 150, 255));
-  Shadow.setColor(sf::Color(50, 50, 50, 255));
 }
 
 CardTypes Card::GetType() { return Type; }
@@ -44,14 +40,21 @@ bool Card::Tick(const bool reachable, const bool click) {
   return result;
 }
 
-void Card::SetLocation(const float x, const float y,
-                       const sf::Vector2i coords) {
+void Card::SetLocation(const float x, const float y, const sf::Vector2i coords,
+                       const sf::Color heightColor) {
+  HeightColor = heightColor;
   Coords = coords;
+
   Edge.setPosition(sf::Vector2f(x + EdgeOffset.x, y + EdgeOffset.y));
   Shadow.setPosition(sf::Vector2f(x + ShadowOffset.x, y + ShadowOffset.y));
   Back.setPosition(sf::Vector2f(x + BackOffset.x, y + BackOffset.x));
   Face.setPosition(sf::Vector2f(x + ImageOffset.x + BackOffset.x,
                                 y + ImageOffset.y + BackOffset.y));
+
+  Face.setColor(HeightColor);
+  Back.setColor(NormalColor * HeightColor);
+  Edge.setColor(sf::Color(150, 150, 150, 255) * HeightColor);
+  Shadow.setColor(sf::Color(50, 50, 50, 255) * HeightColor);
 }
 
 void Card::ChangeType(const CardTypes type, AssetManager* manager) {
@@ -76,21 +79,25 @@ void Card::ChangeState(CardStates state) {
   State = state;
   switch (State) {
     case CardStates::Idle:
-      Back.setColor(NormalColor);
+      Back.setColor(NormalColor * HeightColor);
       break;
     case CardStates::Hinted:
-      Back.setColor(HintedColor);
+      Back.setColor(HintedColor * HeightColor);
       break;
     case CardStates::Selected:
-      Back.setColor(SelectedColor);
+      Back.setColor(SelectedColor * HeightColor);
       break;
     case CardStates::Highlighted:
-      Back.setColor(HighlightedColor);
+      Back.setColor(HighlightedColor * HeightColor);
       break;
   }
 }
 
 bool Card::IsMouseOnCard() {
+  if (!Window->hasFocus()) {
+    return false;
+  }
+
   sf::Vector2i mouse = sf::Mouse::getPosition();
 
   if (Back.getGlobalBounds().contains(sf::Vector2f(mouse.x, mouse.y))) {
