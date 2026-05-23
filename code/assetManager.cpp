@@ -1,8 +1,8 @@
 ﻿#include "assetManager.h"
 
-AssetManager::AssetManager() {
-
+AssetManager::AssetManager(const sf::Vector2f windowSize) {
   bool Opened = true;
+  WindowSize = windowSize;
 
   Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
@@ -177,9 +177,27 @@ sf::Texture* AssetManager::GetCardBack() { return &Back; }
 
 sf::Texture* AssetManager::GetButton() { return &Button; }
 
+void AssetManager::SizeChanged(const sf::Vector2f newSize) {
+  for (Actor* actor : Subscribers) {
+    if (actor) {
+      actor->ResetScales(
+          sf::Vector2f(newSize.x/WindowSize.x, newSize.y / WindowSize.y));
+    }
+  }
+  //std::cout << WindowSize.x << "x" << WindowSize.y << " -> " << newSize.x << "x"<< newSize.y << ": " << newSize.x / WindowSize.x << "x"<< newSize.y / WindowSize.y << " - ";
+  WindowSize = newSize;
+  std::erase_if(Subscribers,
+                [](const Actor* actor) { return !actor; });
+}
+
+void AssetManager::AddSubscriber(Actor* subscriber) {
+  Subscribers.push_back(subscriber);
+}
+
 sf::Texture* AssetManager::GetBG() { return &BG; }
 
-bool AssetManager::LoadSVG(auto& resource, const std::string& path, const sf::Vector2i size) {
+bool AssetManager::LoadSVG(auto& resource, const std::string& path,
+                           const sf::Vector2i size) {
   auto document = lunasvg::Document::loadFromFile(path);
   if (!document) {
     std::cerr << "Failed to load: " << path << "\n";

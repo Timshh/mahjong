@@ -98,7 +98,7 @@ bool Card::IsMouseOnCard() {
     return false;
   }
 
-  sf::Vector2i mouse = sf::Mouse::getPosition();
+  sf::Vector2f mouse = Window->mapPixelToCoords(sf::Mouse::getPosition());
 
   if (Back.getGlobalBounds().contains(sf::Vector2f(mouse.x, mouse.y))) {
     return true;

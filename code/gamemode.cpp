@@ -1,7 +1,7 @@
 ﻿#include "gamemode.h"
 
 Gamemode::Gamemode(sf::RenderWindow* window)
-    : Manager(AssetManager()),
+    : Manager(AssetManager(sf::Vector2f(window->getSize()))),
       NameText(Manager.MainFont, "Mahjong", 140),
       PauseButton(window, &Manager, "Pause", 50, 40),
       ResumeButton(window, &Manager, "Resume", 850, 400),
@@ -18,33 +18,51 @@ Gamemode::Gamemode(sf::RenderWindow* window)
 }
 
 void Gamemode::Tick() {
-  float deltatime = Time.restart().asSeconds();
+  TimeDelta += Time.restart().asSeconds();
+  if (TimeDelta >= 1 / 10) {
 
-  Window->clear();
-  DrawBG();
-  switch (State) {
-    case GameStates::Pause:
-      Window->draw(NameText);
-      if (QuitButton.Tick()) {
-        Window->close();
-        return;
-      }
-      if (TurtleButton.Tick()) {
-        Field.reset(new GameField(Window, &Manager, MahjongForms::Turtle));
-        State = GameStates::Idle;
-      }
-      if (WaveButton.Tick()) {
-        Field.reset(new GameField(Window, &Manager, MahjongForms::Wave));
-        State = GameStates::Idle;
-      }
-      if (Field.get() != nullptr) {
-        if (ResumeButton.Tick()) {
+    Window->clear();
+    DrawBG();
+    switch (State) {
+      case GameStates::Pause:
+        Window->draw(NameText);
+        if (QuitButton.Tick()) {
+          Window->close();
+          return;
+        }
+        if (TurtleButton.Tick()) {
+          Field.reset(new GameField(Window, &Manager, MahjongForms::Turtle));
           State = GameStates::Idle;
+        }
+        if (WaveButton.Tick()) {
+          Field.reset(new GameField(Window, &Manager, MahjongForms::Wave));
+          State = GameStates::Idle;
+        }
+        if (Field.get() != nullptr) {
+          if (ResumeButton.Tick()) {
+            State = GameStates::Idle;
+          } else {
+            if (Window->hasFocus()) {
+              if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+                if (CanEscape) {
+                  State = GameStates::Idle;
+                  CanEscape = false;
+                }
+              } else {
+                CanEscape = true;
+              }
+            }
+          }
+        }
+        break;
+      case GameStates::Idle:
+        if (PauseButton.Tick()) {
+          State = GameStates::Pause;
         } else {
           if (Window->hasFocus()) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
               if (CanEscape) {
-                State = GameStates::Idle;
+                State = GameStates::Pause;
                 CanEscape = false;
               }
             } else {
@@ -52,27 +70,17 @@ void Gamemode::Tick() {
             }
           }
         }
-      }
-      break;
-    case GameStates::Idle:
-      if (PauseButton.Tick()) {
-        State = GameStates::Pause;
-      } else {
-        if (Window->hasFocus()) {
-          if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-            if (CanEscape) {
-              State = GameStates::Pause;
-              CanEscape = false;
-            }
-          } else {
-            CanEscape = true;
-          }
-        }
-      }
-      Field->Tick();
-      break;
+        Field->Tick();
+        break;
+    }
+    Window->display();
+    TimeDelta = 0;
   }
-  Window->display();
+}
+
+void Gamemode::Resize() {
+  Manager.SizeChanged(sf::Vector2f(Window->getSize()));
+  //std::cout << Window->getPosition().x << "x" << Window->getPosition().y << std::endl;
 }
 
 void Gamemode::DrawBG() { Window->draw(BG); }

@@ -26,12 +26,14 @@ FetchContent_MakeAvailable(lunasvg)
 
 set (SOURCES 
 "code/main.cpp"
+"code/actor.cpp"
 "code/card.cpp"
 "code/button.cpp"
 "code/assetManager.cpp"
 "code/gameField.cpp"
 "code/gamemode.cpp")
 set (HEADERS 
+"code/actor.h"
 "code/card.h"
 "code/button.h"
 "code/assetManager.h"

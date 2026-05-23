@@ -24,6 +24,7 @@ inline std::map<MahjongForms, Form> Forms = {
                                  {4, 8, 0},
                                  {4, 10, 0},
                                  {4, 14, 0},
+                                 {2, 0, 0},
                                  {2, 6, 0},
                                  {2, 8, 0},
                                  {2, 14, 0},
@@ -109,6 +110,7 @@ inline std::map<MahjongForms, Form> Forms = {
 
                                  // Layer 1
 
+                                 {8, 2, 1},
                                  {10, 2, 1},
                                  {12, 2, 1},
                                  {14, 2, 1},

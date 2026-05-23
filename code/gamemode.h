@@ -10,12 +10,14 @@ class Gamemode {
  public:
   Gamemode(sf::RenderWindow* window);
   void Tick();
+  void Resize();
 
  private:
   sf::RenderWindow* Window;
 
   void DrawBG();
   bool CanEscape = true;
+  float TimeDelta = 0;
 
   sf::Text NameText;
   sf::Vector2f OffsetMain = sf::Vector2f(0, 0), OffsetSub = sf::Vector2f(0, 0);
