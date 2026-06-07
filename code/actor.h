@@ -3,7 +3,7 @@
 
 #include "data.h"
 
-class Actor {
+class Actor{
  public:
   Actor(sf::RenderWindow* const window);
 

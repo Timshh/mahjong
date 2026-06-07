@@ -179,19 +179,23 @@ sf::Texture* AssetManager::GetButton() { return &Button; }
 
 void AssetManager::SizeChanged(const sf::Vector2f newSize) {
   for (Actor* actor : Subscribers) {
-    if (actor) {
-      actor->ResetScales(
-          sf::Vector2f(newSize.x/WindowSize.x, newSize.y / WindowSize.y));
-    }
+    actor->ResetScales(
+        sf::Vector2f(newSize.x / WindowSize.x, newSize.y / WindowSize.y));
   }
-  //std::cout << WindowSize.x << "x" << WindowSize.y << " -> " << newSize.x << "x"<< newSize.y << ": " << newSize.x / WindowSize.x << "x"<< newSize.y / WindowSize.y << " - ";
+
+  // std::cout << WindowSize.x << "x" << WindowSize.y << " -> " << newSize.x <<
+  // "x"<< newSize.y << ": " << newSize.x / WindowSize.x << "x"<< newSize.y /
+  // WindowSize.y << " - ";
+
   WindowSize = newSize;
-  std::erase_if(Subscribers,
-                [](const Actor* actor) { return !actor; });
 }
 
 void AssetManager::AddSubscriber(Actor* subscriber) {
   Subscribers.push_back(subscriber);
+}
+
+void AssetManager::RemoveSubscriber(Actor* subscriber) {
+  std::erase(Subscribers, subscriber);
 }
 
 sf::Texture* AssetManager::GetBG() { return &BG; }

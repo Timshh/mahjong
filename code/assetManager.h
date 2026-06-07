@@ -12,6 +12,7 @@ class AssetManager {
   AssetManager(const sf::Vector2f windowSize);
 
   void AddSubscriber(Actor* subscriber);
+  void RemoveSubscriber(Actor* subscriber);
   sf::Texture* GetBG();
   sf::Texture* GetCardShadow();
   sf::Texture* GetCardBack();

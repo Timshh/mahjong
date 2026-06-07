@@ -6,6 +6,7 @@ class Button : public Actor {
  public:
   Button(sf::RenderWindow* window, AssetManager* manager,
          const std::string text, const float x, const float y);
+  ~Button();
 
   void ResetScales(const sf::Vector2f deltaSize) override;
   void ChangeLanguage() override;

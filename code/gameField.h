@@ -7,10 +7,11 @@
 #include "forms.h"
 #include "button.h"
 
-class GameField {
+class GameField : public Actor {
  public:
   GameField(sf::RenderWindow* const window, AssetManager* const manager, const MahjongForms form);
 
+  void ResetScales(const sf::Vector2f deltaSize) override;
   void Tick();
   void TickDraw();
   void Click(int cardZ, int cardX, int cardY, bool isNewValid);
@@ -20,7 +21,6 @@ class GameField {
   void Hint();
 
  private:
-  sf::RenderWindow* Window;
   AssetManager* Manager;
   std::vector<std::vector<std::vector<Card*>>> Cards;
   Card* SelectedCard = nullptr;

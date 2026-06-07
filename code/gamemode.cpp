@@ -80,6 +80,10 @@ void Gamemode::Tick() {
 
 void Gamemode::Resize() {
   Manager.SizeChanged(sf::Vector2f(Window->getSize()));
+  NameText.setCharacterSize(sf::Vector2f(Window->getSize()).length() /
+                              sf::Vector2f(1920, 1080).length() * 140);
+  NameText.setPosition(sf::Vector2f(Window->getSize().x / 1920. * 725.,
+                                    Window->getSize().y / 1080. * 200.));
   //std::cout << Window->getPosition().x << "x" << Window->getPosition().y << std::endl;
 }
 

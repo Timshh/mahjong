@@ -4,11 +4,13 @@
 #include "assetManager.h"
 #include "data.h"
 
-class Card {
+class Card : public Actor {
  public:
   Card(sf::RenderWindow* window, AssetManager* manager, const CardTypes type);
+  ~Card();
 
   CardTypes GetType();
+  void ResetScales(const sf::Vector2f deltaSize) override;
   bool Tick(const bool reachable, const bool click);
   void SetLocation(const float x, const float y, const sf::Vector2i coords,
                    const sf::Color heightColor);
@@ -17,9 +19,9 @@ class Card {
   sf::Vector2i Coords;
 
  private:
-  sf::RenderWindow* Window;
-
   bool IsMouseOnCard();
+
+  AssetManager* Manager;
   CardStates State = CardStates::Idle;
   CardTypes Type;
   sf::Sprite Edge, Shadow, Back, Face;

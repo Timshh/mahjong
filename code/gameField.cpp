@@ -2,16 +2,26 @@
 
 GameField::GameField(sf::RenderWindow* const window,
                      AssetManager* const manager, const MahjongForms form)
-    : PairsText(manager->MainFont, "", 40),
+    : Actor(window), PairsText(manager->MainFont, "", 40),
       HintButton(window, manager, "Hint", 50, 240),
       RefreshButton(window, manager, "Refresh", 50, 340) {
-  Window = window;
-  Manager = manager;
+  manager->AddSubscriber(this);
+    Manager = manager;
   Form = form;
   GenerateField();
   CheckPairs();
   PairsText.setPosition(sf::Vector2f(60, 155));
   PairsText.setFillColor(sf::Color::Black);
+  ResetScales(
+      sf::Vector2f(Window->getSize().x / 1920., Window->getSize().y / 1080.));
+}
+
+void GameField::ResetScales(const sf::Vector2f deltaSize) {
+  PairsText.setPosition(sf::Vector2f(PairsText.getPosition().x * deltaSize.x,
+                                     PairsText.getPosition().y * deltaSize.y));
+
+  PairsText.setCharacterSize(sf::Vector2f(Window->getSize()).length() /
+                              sf::Vector2f(1920, 1080).length() * 40);
 }
 
 void GameField::Tick() {
