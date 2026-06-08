@@ -6,6 +6,8 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
+
+
 set(PROJECT_NAME "Mahjong")
 project (${PROJECT_NAME})
 
@@ -26,12 +28,14 @@ FetchContent_MakeAvailable(lunasvg)
 
 set (SOURCES 
 "code/main.cpp"
+"code/actor.cpp"
 "code/card.cpp"
 "code/button.cpp"
 "code/assetManager.cpp"
 "code/gameField.cpp"
 "code/gamemode.cpp")
 set (HEADERS 
+"code/actor.h"
 "code/card.h"
 "code/button.h"
 "code/assetManager.h"

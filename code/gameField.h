@@ -2,15 +2,18 @@
 #include <SFML/Graphics.hpp>
 
 #include "assetManager.h"
+#include "button.h"
 #include "card.h"
 #include "data.h"
 #include "forms.h"
-#include "button.h"
 
-class GameField {
+class GameField : public Actor {
  public:
-  GameField(sf::RenderWindow* const window, AssetManager* const manager, const MahjongForms form);
+  GameField(sf::RenderWindow* const window, AssetManager* const manager,
+            const MahjongForms form);
 
+  void ResetScales(const sf::Vector2f offset, const float mult) override;
+  void ChangeLanguage() override;
   void Tick();
   void TickDraw();
   void Click(int cardZ, int cardX, int cardY, bool isNewValid);
@@ -20,13 +23,12 @@ class GameField {
   void Hint();
 
  private:
-  sf::RenderWindow* Window;
   AssetManager* Manager;
   std::vector<std::vector<std::vector<Card*>>> Cards;
   Card* SelectedCard = nullptr;
 
   void GenerateField();
-  
+
   sf::Text PairsText;
   sf::Vector3i SelectedCoords;
   Button RefreshButton, HintButton;
@@ -34,9 +36,10 @@ class GameField {
   bool CanClick = true, Clicked = false;
   int Pairs = 0;
   MahjongForms Form;
+  std::u8string PairsLang;
 
-  const float CardSizeX = 92/2, CardSizeY = 122/2, OffsetY = 40, OffsetX = 10,
-              CardOffsetZY = 19 / 2, CardOffsetZX = 19 / 2;
-  float FieldOffsetX = 250, FieldOffsetY = 0; 
+  const float CardSizeX = 92 / 2, CardSizeY = 122 / 2, OffsetY = 40,
+              OffsetX = 10, CardOffsetZY = 19 / 2, CardOffsetZX = 19 / 2;
+  float FieldOffsetX = 250, FieldOffsetY = 0;
   int FieldHeight, FieldWidth;
 };

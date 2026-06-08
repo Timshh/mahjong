@@ -2,12 +2,18 @@
 
 Card::Card(sf::RenderWindow* window, AssetManager* manager,
            const CardTypes type)
-    : Shadow(*manager->GetCardShadow()),
+    : Actor(window),
+      Shadow(*manager->GetCardShadow()),
       Edge(*manager->GetCardShadow()),
       Back(*manager->GetCardBack()),
       Face(*manager->GetCard(type)) {
-  Window = window;
+  Manager = manager;
+  Manager->AddSubscriber(this);
   Type = type;
+
+  Back.setColor(NormalColor);
+  Edge.setColor(sf::Color(150, 150, 150, 255));
+  Shadow.setColor(sf::Color(50, 50, 50, 255));
 
   ImageOffset = manager->ImageOffset;
   ShadowOffset = manager->ShadowOffset;
@@ -15,7 +21,42 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   BackOffset = manager->BackOffset;
 }
 
+Card::~Card() { Manager->RemoveSubscriber(this); }
+
 CardTypes Card::GetType() { return Type; }
+
+void Card::ResetScales(const sf::Vector2f offset, const float mult) {
+  if (PosX == 0 && PosY == 0) {
+    return;
+  }
+  Back.setPosition(sf::Vector2f((PosX + BackOffset.x) * mult + offset.x,
+                                (PosY + BackOffset.y) * mult + offset.y));
+  Edge.setPosition(sf::Vector2f((PosX + EdgeOffset.x) * mult + offset.x,
+                                (PosY + EdgeOffset.y) * mult + offset.y));
+  Face.setPosition(sf::Vector2f((PosX + ImageOffset.x) * mult + offset.x,
+                                (PosY + ImageOffset.y) * mult + offset.y));
+  Shadow.setPosition(sf::Vector2f((PosX + ShadowOffset.x) * mult + offset.x,
+                                  (PosY + ShadowOffset.y) * mult + offset.y));
+
+  Shadow.setTextureRect(
+      sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShadow()->getSize())));
+  Edge.setTextureRect(sf::IntRect(
+      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShadow()->getSize())));
+  Back.setTextureRect(sf::IntRect(
+      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardBack()->getSize())));
+  Face.setTextureRect(sf::IntRect(
+      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCard(Type)->getSize())));
+
+  /* Shadow.setTexture(*Manager->GetCardShadow());
+  Edge.setTexture(*Manager->GetCardShadow());
+  Back.setTexture(*Manager->GetCardBack());
+  Face.setTexture(*Manager->GetCard(Type));
+
+  Back.setScale(sf::Vector2f(mult, mult));
+  Edge.setScale(sf::Vector2f(mult, mult));
+  Face.setScale(sf::Vector2f(mult, mult));
+  Shadow.setScale(sf::Vector2f(mult, mult));*/
+}
 
 bool Card::Tick(const bool reachable, const bool click) {
   bool result = false;
@@ -40,21 +81,15 @@ bool Card::Tick(const bool reachable, const bool click) {
   return result;
 }
 
-void Card::SetLocation(const float x, const float y, const sf::Vector2i coords,
-                       const sf::Color heightColor) {
-  HeightColor = heightColor;
+void Card::SetLocation(const float x, const float y,
+                       const sf::Vector2i coords) {
+  PosX = x;
+  PosY = y;
   Coords = coords;
-
-  Edge.setPosition(sf::Vector2f(x + EdgeOffset.x, y + EdgeOffset.y));
-  Shadow.setPosition(sf::Vector2f(x + ShadowOffset.x, y + ShadowOffset.y));
-  Back.setPosition(sf::Vector2f(x + BackOffset.x, y + BackOffset.x));
-  Face.setPosition(sf::Vector2f(x + ImageOffset.x + BackOffset.x,
-                                y + ImageOffset.y + BackOffset.y));
-
-  Face.setColor(HeightColor);
-  Back.setColor(NormalColor * HeightColor);
-  Edge.setColor(sf::Color(150, 150, 150, 255) * HeightColor);
-  Shadow.setColor(sf::Color(50, 50, 50, 255) * HeightColor);
+  int mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
+  ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
+                           (Window->getSize().y - mult * 9) / 2),
+              mult / 120.);
 }
 
 void Card::ChangeType(const CardTypes type, AssetManager* manager) {
@@ -79,16 +114,16 @@ void Card::ChangeState(CardStates state) {
   State = state;
   switch (State) {
     case CardStates::Idle:
-      Back.setColor(NormalColor * HeightColor);
+      Back.setColor(NormalColor);
       break;
     case CardStates::Hinted:
-      Back.setColor(HintedColor * HeightColor);
+      Back.setColor(HintedColor);
       break;
     case CardStates::Selected:
-      Back.setColor(SelectedColor * HeightColor);
+      Back.setColor(SelectedColor);
       break;
     case CardStates::Highlighted:
-      Back.setColor(HighlightedColor * HeightColor);
+      Back.setColor(HighlightedColor);
       break;
   }
 }
@@ -98,7 +133,7 @@ bool Card::IsMouseOnCard() {
     return false;
   }
 
-  sf::Vector2i mouse = sf::Mouse::getPosition();
+  sf::Vector2f mouse = sf::Vector2f(sf::Mouse::getPosition(*Window));
 
   if (Back.getGlobalBounds().contains(sf::Vector2f(mouse.x, mouse.y))) {
     return true;

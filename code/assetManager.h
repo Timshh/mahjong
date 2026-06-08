@@ -4,17 +4,23 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "actor.h"
 #include "data.h"
 
 class AssetManager {
  public:
-  AssetManager();
+  AssetManager(const sf::Vector2f windowSize);
 
+  void AddSubscriber(Actor* subscriber);
+  void RemoveSubscriber(Actor* subscriber);
   sf::Texture* GetBG();
   sf::Texture* GetCardShadow();
   sf::Texture* GetCardBack();
   sf::Texture* GetCard(const CardTypes type);
   sf::Texture* GetButton();
+  std::u8string GetText(const TextElement elem);
+  void SizeChanged(const sf::Vector2f offset, const float mult);
+  void SwapLanguage();
 
   sf::Font MainFont;
   sf::Texture Empty;
@@ -29,12 +35,16 @@ class AssetManager {
   bool LoadSVG(auto& resource, const std::string& path,
                const sf::Vector2i size);
   bool OpenResource(auto& resource, const std::string& path);
+  bool RenderResources();
 
-  sf::Texture Shadow, Back, Button,
-      Word1, Word2, Word3, Word4, Word5, Word6, Word7, Word8, Word9, Word10,
-      Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9, Num10, Pin1, Pin2,
-      Pin3, Pin4, Pin5, Pin6, Pin7, Pin8, Pin9, Pin10, One, Two, Three, Four,
-      Five, Six, BG;
+  float Mult = 1;
+  Language Lang = Language::Russian;
+  LanguageSet CurrentLanguage = Languages[Language::Russian];
+  std::vector<Actor*> Subscribers;
+  sf::Texture Shadow, Back, Button, Word1, Word2, Word3, Word4, Word5, Word6,
+      Word7, Word8, Word9, Word10, Num1, Num2, Num3, Num4, Num5, Num6, Num7,
+      Num8, Num9, Num10, Pin1, Pin2, Pin3, Pin4, Pin5, Pin6, Pin7, Pin8, Pin9,
+      Pin10, One, Two, Three, Four, Five, Six, BG;
 
   const sf::Vector2i CardSize = sf::Vector2i(90, 120),
                      ShadowSize = sf::Vector2i(96, 126),

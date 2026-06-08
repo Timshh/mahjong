@@ -2,16 +2,32 @@
 
 GameField::GameField(sf::RenderWindow* const window,
                      AssetManager* const manager, const MahjongForms form)
-    : PairsText(manager->MainFont, "", 40),
-      HintButton(window, manager, "Hint", 50, 240),
-      RefreshButton(window, manager, "Refresh", 50, 340) {
-  Window = window;
+    : Actor(window),
+      PairsText(manager->MainFont, "", 40),
+      HintButton(window, manager, TextElement::Hint, 50, 240),
+      RefreshButton(window, manager, TextElement::Refresh, 50, 340) {
+  manager->AddSubscriber(this);
   Manager = manager;
   Form = form;
   GenerateField();
   CheckPairs();
-  PairsText.setPosition(sf::Vector2f(60, 155));
+  PairsLang = manager->GetText(TextElement::Pairs);
   PairsText.setFillColor(sf::Color::Black);
+
+  int mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
+  ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
+                           (Window->getSize().y - mult * 9) / 2),
+              mult / 120.);
+}
+
+void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
+  PairsText.setPosition(
+      sf::Vector2f(60 * mult + offset.x, 155 * mult + offset.y));
+  PairsText.setCharacterSize(mult * 40);
+}
+
+void GameField::ChangeLanguage() {
+  PairsLang = Manager->GetText(TextElement::Pairs);
 }
 
 void GameField::Tick() {
@@ -61,7 +77,9 @@ void GameField::Tick() {
 }
 
 void GameField::TickDraw() {
-  PairsText.setString("Pairs: " + std::to_string(Pairs));
+  std::string num = std::to_string(Pairs);
+  std::u8string result = PairsLang + std::u8string(reinterpret_cast<const char8_t*>(num.size(), num.data()));
+  PairsText.setString(sf::String::fromUtf8(result.begin(),result.end()));
   Window->draw(PairsText);
 }
 
@@ -279,9 +297,7 @@ void GameField::GenerateField() {
               OffsetX,
           currCoord.y * CardSizeY + FieldOffsetY - currCoord.z * CardOffsetZY +
               OffsetY,
-          sf::Vector2i(currCoord.x, currCoord.y),
-          sf::Color((4 - currCoord.z) * 20 + 155, (4 - currCoord.z) * 20 + 155,
-                    (4 - currCoord.z) * 20 + 155));
+          sf::Vector2i(currCoord.x, currCoord.y));
       Cards[currCoord.z][currCoord.y + 1][currCoord.x] =
           Cards[currCoord.z][currCoord.y][currCoord.x + 1] =
               Cards[currCoord.z][currCoord.y + 1][currCoord.x + 1] =
