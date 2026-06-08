@@ -9,10 +9,9 @@ Gamemode::Gamemode(sf::RenderWindow* window)
       WaveButton(window, &Manager, TextElement::Wave, 850, 600),
       QuitButton(window, &Manager, TextElement::Quit, 850, 800),
       LangButton(window, &Manager, TextElement::Language, 850, 700),
-      BG(Manager.Empty) {
+      BG(*Manager.GetBG()) {
   Window = window;
 
-  BG.setTexture(*Manager.GetBG());
   BG.setColor(sf::Color(127, 127, 127, 255));
   NameText.setPosition(sf::Vector2f(725, 200));
   NameText.setFillColor(sf::Color::Black);
