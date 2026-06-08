@@ -26,6 +26,10 @@ void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
   PairsText.setCharacterSize(mult * 40);
 }
 
+void GameField::ChangeLanguage() {
+  PairsLang = Manager->GetText(TextElement::Pairs);
+}
+
 void GameField::Tick() {
   if (State == FieldStates::Idle) {
     if (RefreshButton.Tick()) {

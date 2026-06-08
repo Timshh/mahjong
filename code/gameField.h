@@ -13,6 +13,7 @@ class GameField : public Actor {
             const MahjongForms form);
 
   void ResetScales(const sf::Vector2f offset, const float mult) override;
+  void ChangeLanguage() override;
   void Tick();
   void TickDraw();
   void Click(int cardZ, int cardX, int cardY, bool isNewValid);
