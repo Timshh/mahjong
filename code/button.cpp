@@ -16,25 +16,24 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
   ButtonText.setFillColor(sf::Color::Black);
 
   Position = sf::Vector2i(x, y);
-  Back.setPosition(sf::Vector2f(Position.x, Position.y));
-  ButtonText.setPosition(sf::Vector2f(Position.x + 20, Position.y + 20));
-
-  ResetScales(sf::Vector2f(Window->getSize().x / 1920., Window->getSize().y / 1080.));
+  float mult =
+      std::min(Window->getSize().x / 16, Window->getSize().y / 9);
+  ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
+                           (Window->getSize().y - mult * 9) / 2),
+              mult / 120.);
 }
 
 Button::~Button() { Manager->RemoveSubscriber(this); }
 
-void Button::ResetScales(const sf::Vector2f deltaSize) {
-  Back.setPosition(sf::Vector2f(Back.getPosition().x * deltaSize.x,
-                                Back.getPosition().y * deltaSize.y));
-  ButtonText.setPosition(
-      sf::Vector2f(ButtonText.getPosition().x * deltaSize.x,
-                   ButtonText.getPosition().y * deltaSize.y));
+void Button::ResetScales(const sf::Vector2f offset, const float mult) {
+  Back.setPosition(
+      sf::Vector2f(Position.x * mult + offset.x, Position.y * mult + offset.y));
+  ButtonText.setPosition(sf::Vector2f((Position.x + 20) * mult + offset.x,
+                                      (Position.y + 20) * mult + offset.y));
 
-  ButtonText.setCharacterSize(sf::Vector2f(Window->getSize()).length() /
-                              sf::Vector2f(1920, 1080).length() * 40);
-  Back.setScale(sf::Vector2f(Back.getScale().x * deltaSize.x,
-                             Back.getScale().y * deltaSize.y));
+  ButtonText.setCharacterSize(mult * 40);
+  Back.setTextureRect(sf::IntRect(
+      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetButton()->getSize())));
 }
 
 void Button::ChangeLanguage() {}
@@ -73,8 +72,7 @@ bool Button::IsMouseOnButton() {
     return false;
   }
 
-  sf::Vector2f mouse =
-      sf::Vector2f(sf::Mouse::getPosition(*Window));
+  sf::Vector2f mouse = sf::Vector2f(sf::Mouse::getPosition(*Window));
 
   if (Back.getGlobalBounds().contains(mouse)) {
     return true;

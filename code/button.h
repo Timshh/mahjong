@@ -8,7 +8,7 @@ class Button : public Actor {
          const std::string text, const float x, const float y);
   ~Button();
 
-  void ResetScales(const sf::Vector2f deltaSize) override;
+  void ResetScales(const sf::Vector2f offset, const float mult) override;
   void ChangeLanguage() override;
   bool Tick();
 

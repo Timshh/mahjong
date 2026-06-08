@@ -7,7 +7,7 @@ class Actor{
  public:
   Actor(sf::RenderWindow* const window);
 
-  void virtual ResetScales(const sf::Vector2f deltaSize);
+  void virtual ResetScales(const sf::Vector2f offset, const float mult);
   void virtual ChangeLanguage();
 
  protected:

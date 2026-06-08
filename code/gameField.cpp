@@ -2,26 +2,27 @@
 
 GameField::GameField(sf::RenderWindow* const window,
                      AssetManager* const manager, const MahjongForms form)
-    : Actor(window), PairsText(manager->MainFont, "", 40),
+    : Actor(window),
+      PairsText(manager->MainFont, "", 40),
       HintButton(window, manager, "Hint", 50, 240),
       RefreshButton(window, manager, "Refresh", 50, 340) {
   manager->AddSubscriber(this);
-    Manager = manager;
+  Manager = manager;
   Form = form;
   GenerateField();
   CheckPairs();
-  PairsText.setPosition(sf::Vector2f(60, 155));
   PairsText.setFillColor(sf::Color::Black);
-  ResetScales(
-      sf::Vector2f(Window->getSize().x / 1920., Window->getSize().y / 1080.));
+
+  int mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
+  ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
+                           (Window->getSize().y - mult * 9) / 2),
+              mult / 120.);
 }
 
-void GameField::ResetScales(const sf::Vector2f deltaSize) {
-  PairsText.setPosition(sf::Vector2f(PairsText.getPosition().x * deltaSize.x,
-                                     PairsText.getPosition().y * deltaSize.y));
-
-  PairsText.setCharacterSize(sf::Vector2f(Window->getSize()).length() /
-                              sf::Vector2f(1920, 1080).length() * 40);
+void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
+  PairsText.setPosition(
+      sf::Vector2f(60 * mult + offset.x, 155 * mult + offset.y));
+  PairsText.setCharacterSize(mult * 40);
 }
 
 void GameField::Tick() {
@@ -289,9 +290,7 @@ void GameField::GenerateField() {
               OffsetX,
           currCoord.y * CardSizeY + FieldOffsetY - currCoord.z * CardOffsetZY +
               OffsetY,
-          sf::Vector2i(currCoord.x, currCoord.y),
-          sf::Color((4 - currCoord.z) * 20 + 155, (4 - currCoord.z) * 20 + 155,
-                    (4 - currCoord.z) * 20 + 155));
+          sf::Vector2i(currCoord.x, currCoord.y));
       Cards[currCoord.z][currCoord.y + 1][currCoord.x] =
           Cards[currCoord.z][currCoord.y][currCoord.x + 1] =
               Cards[currCoord.z][currCoord.y + 1][currCoord.x + 1] =

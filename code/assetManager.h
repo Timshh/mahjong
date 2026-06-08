@@ -18,7 +18,7 @@ class AssetManager {
   sf::Texture* GetCardBack();
   sf::Texture* GetCard(const CardTypes type);
   sf::Texture* GetButton();
-  void SizeChanged(const sf::Vector2f newSize);
+  void SizeChanged(const sf::Vector2f offset, const float mult);
 
   sf::Font MainFont;
   sf::Texture Empty;
@@ -33,9 +33,10 @@ class AssetManager {
   bool LoadSVG(auto& resource, const std::string& path,
                const sf::Vector2i size);
   bool OpenResource(auto& resource, const std::string& path);
+  bool RenderResources();
 
+  float Mult = 1;
   std::vector<Actor*> Subscribers;
-  sf::Vector2f WindowSize;
   sf::Texture Shadow, Back, Button, Word1, Word2, Word3, Word4, Word5, Word6,
       Word7, Word8, Word9, Word10, Num1, Num2, Num3, Num4, Num5, Num6, Num7,
       Num8, Num9, Num10, Pin1, Pin2, Pin3, Pin4, Pin5, Pin6, Pin7, Pin8, Pin9,

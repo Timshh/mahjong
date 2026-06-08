@@ -20,7 +20,6 @@ Gamemode::Gamemode(sf::RenderWindow* window)
 void Gamemode::Tick() {
   TimeDelta += Time.restart().asSeconds();
   if (TimeDelta >= 1 / 10) {
-
     Window->clear();
     DrawBG();
     switch (State) {
@@ -79,12 +78,16 @@ void Gamemode::Tick() {
 }
 
 void Gamemode::Resize() {
-  Manager.SizeChanged(sf::Vector2f(Window->getSize()));
-  NameText.setCharacterSize(sf::Vector2f(Window->getSize()).length() /
-                              sf::Vector2f(1920, 1080).length() * 140);
-  NameText.setPosition(sf::Vector2f(Window->getSize().x / 1920. * 725.,
-                                    Window->getSize().y / 1080. * 200.));
-  //std::cout << Window->getPosition().x << "x" << Window->getPosition().y << std::endl;
+  float mult =
+      std::min(Window->getSize().x / 16, Window->getSize().y / 9) ;
+  int offsetX = (Window->getSize().x - mult * 16) / 2,
+      offsetY = (Window->getSize().y - mult * 9) / 2;
+
+  NameText.setCharacterSize(mult / 120. * 140);
+  NameText.setPosition(
+      sf::Vector2f(mult / 120. * 725. + offsetX, mult / 120. * 200. + offsetY));
+
+  Manager.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.);
 }
 
 void Gamemode::DrawBG() { Window->draw(BG); }
