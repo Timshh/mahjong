@@ -1,10 +1,11 @@
 ﻿#include "button.h"
 
 Button::Button(sf::RenderWindow* window, AssetManager* manager,
-               const std::string text, const float x, const float y)
+               const TextElement type, const float x, const float y)
     : Actor(window),
       Back(*manager->GetButton()),
-      ButtonText(manager->MainFont, text, 40) {
+      ButtonText(manager->MainFont, "", 40) {
+  Type = type;
   Manager = manager;
   Manager->AddSubscriber(this);
   Back.setColor(NormalColor);
@@ -16,11 +17,11 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
   ButtonText.setFillColor(sf::Color::Black);
 
   Position = sf::Vector2i(x, y);
-  float mult =
-      std::min(Window->getSize().x / 16, Window->getSize().y / 9);
+  float mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
                            (Window->getSize().y - mult * 9) / 2),
               mult / 120.);
+  ChangeLanguage();
 }
 
 Button::~Button() { Manager->RemoveSubscriber(this); }
@@ -36,7 +37,10 @@ void Button::ResetScales(const sf::Vector2f offset, const float mult) {
       sf::Vector2i(0, 0), sf::Vector2i(Manager->GetButton()->getSize())));
 }
 
-void Button::ChangeLanguage() {}
+void Button::ChangeLanguage() {
+  std::u8string name = Manager->GetText(Type);
+  ButtonText.setString(sf::String::fromUtf8(name.begin(), name.end()));
+}
 
 bool Button::Tick() {
   bool result = false;

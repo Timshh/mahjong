@@ -4,8 +4,8 @@
 
 class Button : public Actor {
  public:
-  Button(sf::RenderWindow* window, AssetManager* manager,
-         const std::string text, const float x, const float y);
+  Button(sf::RenderWindow* window, AssetManager* manager, const TextElement type,
+         const float x, const float y);
   ~Button();
 
   void ResetScales(const sf::Vector2f offset, const float mult) override;
@@ -15,6 +15,7 @@ class Button : public Actor {
  private:
   bool IsMouseOnButton();
 
+  TextElement Type;
   AssetManager* Manager;
   bool Pressed = false, Overlap = false;
   sf::Vector2i Position;

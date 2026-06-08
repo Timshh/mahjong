@@ -3,10 +3,7 @@
 
 enum class GameStates { Idle, Pause };
 
-enum class FieldStates {
-	Idle,
-	Finished
-};
+enum class FieldStates { Idle, Finished };
 
 enum class CardTypes {
   Word1,
@@ -48,38 +45,43 @@ enum class CardTypes {
   COUNT
 };
 
-enum class CardStates {
-  Idle,
-  Highlighted, Selected, Hinted
-};
+enum class CardStates { Idle, Highlighted, Selected, Hinted };
 
 const sf::Color NormalColor = sf::Color(230, 230, 230, 255),
                 HighlightedColor = sf::Color(230, 230, 210, 255),
                 SelectedColor = sf::Color(230, 230, 190, 255),
                 HintedColor = sf::Color(230, 230, 170, 255);
 
-enum class Language {
-    Russian,
-    English
+enum class Language { Russian, English };
+
+enum class TextElement {
+  Resume,
+  Pause,
+  Turtle,
+  Wave,
+  Pairs,
+  Refresh,
+  Hint,
+  Language,
+  Quit
 };
 
 struct LanguageSet {
-  std::string ResumeText;
-  std::string PauseText;
-  std::string TurtleText;
-  std::string WaveText;
-  std::string PairsText;
-  std::string RefreshText;
-  std::string HintText;
-  std::string LanguageText;
-  std::string MahjongText;
-  std::string QuitText;
+  std::u8string ResumeText;
+  std::u8string PauseText;
+  std::u8string TurtleText;
+  std::u8string WaveText;
+  std::u8string PairsText;
+  std::u8string RefreshText;
+  std::u8string HintText;
+  std::u8string LanguageText;
+  std::u8string QuitText;
 };
 
 inline std::map<Language, LanguageSet> Languages = {
     {Language::Russian,
-     {"Продолжить", "Пауза", "Черепаха", "Волна", "Пары:", "Перемешать",
-      "Подсказка", "Рус", "Маджонг", "Выйти"}},
+     {u8"Вернуться", u8"Пауза", u8"Черепаха", u8"Волна", u8"Пары:",
+      u8"Смешать", u8"Подсказка", u8"Rus", u8"Выйти"}},
     {Language::English,
-     {"Resume", "Pause", "Turtle", "Wave", "Pairs:", "Refresh",
-      "Hint", "Eng", "Mahjong", "Quit"}}};
+     {u8"Resume", u8"Pause", u8"Turtle", u8"Wave", u8"Pairs:", u8"Refresh",
+      u8"Hint", u8"Eng", u8"Quit"}}};

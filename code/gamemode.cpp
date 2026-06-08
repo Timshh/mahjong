@@ -3,11 +3,12 @@
 Gamemode::Gamemode(sf::RenderWindow* window)
     : Manager(AssetManager(sf::Vector2f(window->getSize()))),
       NameText(Manager.MainFont, "Mahjong", 140),
-      PauseButton(window, &Manager, "Pause", 50, 40),
-      ResumeButton(window, &Manager, "Resume", 850, 400),
-      TurtleButton(window, &Manager, "Turtle", 850, 500),
-      WaveButton(window, &Manager, "Wave", 850, 600),
-      QuitButton(window, &Manager, "Quit", 850, 700),
+      PauseButton(window, &Manager, TextElement::Pause, 50, 40),
+      ResumeButton(window, &Manager, TextElement::Resume, 850, 400),
+      TurtleButton(window, &Manager, TextElement::Turtle, 850, 500),
+      WaveButton(window, &Manager, TextElement::Wave, 850, 600),
+      QuitButton(window, &Manager, TextElement::Quit, 850, 800),
+      LangButton(window, &Manager, TextElement::Language, 850, 700),
       BG(Manager.Empty) {
   Window = window;
 
@@ -28,6 +29,9 @@ void Gamemode::Tick() {
         if (QuitButton.Tick()) {
           Window->close();
           return;
+        }
+        if (LangButton.Tick()) {
+          Manager.SwapLanguage();
         }
         if (TurtleButton.Tick()) {
           Field.reset(new GameField(Window, &Manager, MahjongForms::Turtle));

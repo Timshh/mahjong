@@ -25,6 +25,7 @@ class Gamemode {
   sf::Clock Time;
   AssetManager Manager;
   GameStates State = GameStates::Pause;
-  Button PauseButton, TurtleButton, WaveButton, ResumeButton, QuitButton;
+  Button PauseButton, TurtleButton, WaveButton, ResumeButton, QuitButton,
+      LangButton;
   std::unique_ptr<GameField> Field;
 };

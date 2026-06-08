@@ -4,13 +4,14 @@ GameField::GameField(sf::RenderWindow* const window,
                      AssetManager* const manager, const MahjongForms form)
     : Actor(window),
       PairsText(manager->MainFont, "", 40),
-      HintButton(window, manager, "Hint", 50, 240),
-      RefreshButton(window, manager, "Refresh", 50, 340) {
+      HintButton(window, manager, TextElement::Hint, 50, 240),
+      RefreshButton(window, manager, TextElement::Refresh, 50, 340) {
   manager->AddSubscriber(this);
   Manager = manager;
   Form = form;
   GenerateField();
   CheckPairs();
+  PairsLang = manager->GetText(TextElement::Pairs);
   PairsText.setFillColor(sf::Color::Black);
 
   int mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
@@ -72,7 +73,9 @@ void GameField::Tick() {
 }
 
 void GameField::TickDraw() {
-  PairsText.setString("Pairs: " + std::to_string(Pairs));
+  std::string num = std::to_string(Pairs);
+  std::u8string result = PairsLang + std::u8string(reinterpret_cast<const char8_t*>(num.size(), num.data()));
+  PairsText.setString(sf::String::fromUtf8(result.begin(),result.end()));
   Window->draw(PairsText);
 }
 

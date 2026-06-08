@@ -5,6 +5,7 @@ AssetManager::AssetManager(const sf::Vector2f windowSize) {
 
   bool Opened = true;
 
+  //Opened &= OpenResource(MainFont, "data/Roboto-Medium.ttf");
   Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
 
@@ -137,6 +138,39 @@ sf::Texture* AssetManager::GetCardBack() { return &Back; }
 
 sf::Texture* AssetManager::GetButton() { return &Button; }
 
+std::u8string AssetManager::GetText(const TextElement elem) {
+  switch (elem) {
+    case TextElement::Resume:
+      return CurrentLanguage.ResumeText;
+      break;
+    case TextElement::Hint:
+      return CurrentLanguage.HintText;
+      break;
+    case TextElement::Pairs:
+      return CurrentLanguage.PairsText;
+      break;
+    case TextElement::Pause:
+      return CurrentLanguage.PauseText;
+      break;
+    case TextElement::Quit:
+      return CurrentLanguage.QuitText;
+      break;
+    case TextElement::Refresh:
+      return CurrentLanguage.RefreshText;
+      break;
+    case TextElement::Language:
+      return CurrentLanguage.LanguageText;
+      break;
+    case TextElement::Turtle:
+      return CurrentLanguage.TurtleText;
+      break;
+    case TextElement::Wave:
+      return CurrentLanguage.WaveText;
+      break;
+  }
+  return u8"";
+}
+
 void AssetManager::SizeChanged(const sf::Vector2f offset, const float mult) {
   Mult = mult;
   if (!RenderResources()) {
@@ -145,6 +179,23 @@ void AssetManager::SizeChanged(const sf::Vector2f offset, const float mult) {
 
   for (Actor* actor : Subscribers) {
     actor->ResetScales(sf::Vector2f(offset.x, offset.y), mult);
+  }
+}
+
+void AssetManager::SwapLanguage() {
+  switch (Lang) {
+    case Language::English:
+      Lang = Language ::Russian;
+      CurrentLanguage = Languages[Lang];
+      break;
+    case Language::Russian:
+      Lang = Language ::English;
+      CurrentLanguage = Languages[Lang];
+      break;
+  }
+
+  for (Actor* actor : Subscribers) {
+    actor->ChangeLanguage();
   }
 }
 

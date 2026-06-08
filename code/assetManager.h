@@ -18,7 +18,9 @@ class AssetManager {
   sf::Texture* GetCardBack();
   sf::Texture* GetCard(const CardTypes type);
   sf::Texture* GetButton();
+  std::u8string GetText(const TextElement elem);
   void SizeChanged(const sf::Vector2f offset, const float mult);
+  void SwapLanguage();
 
   sf::Font MainFont;
   sf::Texture Empty;
@@ -36,6 +38,8 @@ class AssetManager {
   bool RenderResources();
 
   float Mult = 1;
+  Language Lang = Language::Russian;
+  LanguageSet CurrentLanguage = Languages[Language::Russian];
   std::vector<Actor*> Subscribers;
   sf::Texture Shadow, Back, Button, Word1, Word2, Word3, Word4, Word5, Word6,
       Word7, Word8, Word9, Word10, Num1, Num2, Num3, Num4, Num5, Num6, Num7,

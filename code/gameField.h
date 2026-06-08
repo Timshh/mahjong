@@ -35,6 +35,7 @@ class GameField : public Actor {
   bool CanClick = true, Clicked = false;
   int Pairs = 0;
   MahjongForms Form;
+  std::u8string PairsLang;
 
   const float CardSizeX = 92 / 2, CardSizeY = 122 / 2, OffsetY = 40,
               OffsetX = 10, CardOffsetZY = 19 / 2, CardOffsetZX = 19 / 2;
