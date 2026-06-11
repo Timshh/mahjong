@@ -19,7 +19,7 @@ Gamemode::Gamemode(sf::RenderWindow* window)
 
 void Gamemode::Tick() {
   TimeDelta += Time.restart().asSeconds();
-  if (TimeDelta >= 1 / 10) {
+  if (TimeDelta >= 1. / 60.) {
     Window->clear();
     DrawBG();
     switch (State) {

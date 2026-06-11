@@ -56,6 +56,15 @@ void GameField::Tick() {
         for (int y = 0; y < FieldWidth; ++y) {
           if (Cards[z][y][x]) {
             if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+              Cards[z][y][x]->ShadeTick();
+            }
+          }
+        }
+      }
+      for (int x = 0; x < FieldWidth; ++x) {
+        for (int y = 0; y < FieldWidth; ++y) {
+          if (Cards[z][y][x]) {
+            if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
               if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
                 Click(z, y, x, true);
                 Clicked = false;

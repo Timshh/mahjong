@@ -5,7 +5,6 @@ AssetManager::AssetManager(const sf::Vector2f windowSize) {
 
   bool Opened = true;
 
-  //Opened &= OpenResource(MainFont, "data/Roboto-Medium.ttf");
   Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
 
@@ -134,6 +133,8 @@ sf::Texture* AssetManager::GetCard(const CardTypes type) {
 
 sf::Texture* AssetManager::GetCardShadow() { return &Shadow; }
 
+sf::Texture* AssetManager::GetCardShade() { return &Shade; }
+
 sf::Texture* AssetManager::GetCardBack() { return &Back; }
 
 sf::Texture* AssetManager::GetButton() { return &Button; }
@@ -245,6 +246,7 @@ bool AssetManager::RenderResources() {
   // Backs
   Rendered &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
   Rendered &= LoadSVG(Shadow, "data/cards/Back.svg", ShadowSize);
+  Rendered &= LoadSVG(Shade, "data/cards/Back.svg", ShadeSize);
   Rendered &= LoadSVG(Back, "data/cards/Back.svg", CardSize);
   Rendered &= LoadSVG(Button, "data/cards/Back.svg", ButtonSize);
 

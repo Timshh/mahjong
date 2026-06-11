@@ -12,6 +12,7 @@ class Card : public Actor {
   CardTypes GetType();
   void ResetScales(const sf::Vector2f offset, const float mult) override;
   bool Tick(const bool reachable, const bool click);
+  void ShadeTick();
   void SetLocation(const float x, const float y, const sf::Vector2i coords);
   void ChangeType(const CardTypes type, AssetManager* manager);
   void ChangeState(const CardStates state);
@@ -24,6 +25,6 @@ class Card : public Actor {
   AssetManager* Manager;
   CardStates State = CardStates::Idle;
   CardTypes Type;
-  sf::Sprite Edge, Shadow, Back, Face;
-  sf::Vector2f ImageOffset, EdgeOffset, BackOffset, ShadowOffset;
+  sf::Sprite Edge, Shadow, Back, Face, Shade;
+  sf::Vector2f ImageOffset, EdgeOffset, BackOffset, ShadowOffset, ShadeOffset;
 };
