@@ -1,7 +1,7 @@
 ﻿#include "gamemode.h"
 
 Gamemode::Gamemode(sf::RenderWindow* window)
-    : Manager(AssetManager(sf::Vector2f(window->getSize()))),
+    : Manager(AssetManager(sf::Vector2i(window->getSize()))),
       NameText(Manager.MainFont, "Mahjong", 140),
       PauseButton(window, &Manager, TextElement::Pause, 50, 40),
       ResumeButton(window, &Manager, TextElement::Resume, 850, 400),
@@ -9,7 +9,8 @@ Gamemode::Gamemode(sf::RenderWindow* window)
       WaveButton(window, &Manager, TextElement::Wave, 850, 600),
       QuitButton(window, &Manager, TextElement::Quit, 850, 800),
       LangButton(window, &Manager, TextElement::Language, 850, 700),
-      BG(*Manager.GetBG()) {
+      BG(*Manager.GetBG()),
+      Vignette(*Manager.GetVignette()) {
   Window = window;
 
   BG.setColor(sf::Color(127, 127, 127, 255));
@@ -81,8 +82,7 @@ void Gamemode::Tick() {
 }
 
 void Gamemode::Resize() {
-  float mult =
-      std::min(Window->getSize().x / 16, Window->getSize().y / 9) ;
+  float mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   int offsetX = (Window->getSize().x - mult * 16) / 2,
       offsetY = (Window->getSize().y - mult * 9) / 2;
 
@@ -90,7 +90,14 @@ void Gamemode::Resize() {
   NameText.setPosition(
       sf::Vector2f(mult / 120. * 725. + offsetX, mult / 120. * 200. + offsetY));
 
-  Manager.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.);
+  Manager.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.,
+                      sf::Vector2i(Window->getSize()));
+
+  Vignette.setTextureRect(sf::IntRect(
+      sf::Vector2i(0, 0), sf::Vector2i(Manager.GetVignette()->getSize())));
 }
 
-void Gamemode::DrawBG() { Window->draw(BG); }
+void Gamemode::DrawBG() {
+  Window->draw(BG);
+  //Window->draw(Vignette);
+}

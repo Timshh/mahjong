@@ -1,6 +1,6 @@
 ﻿#include "assetManager.h"
 
-AssetManager::AssetManager(const sf::Vector2f windowSize) {
+AssetManager::AssetManager(const sf::Vector2i windowSize) {
   BG.setRepeated(true);
 
   bool Opened = true;
@@ -8,7 +8,7 @@ AssetManager::AssetManager(const sf::Vector2f windowSize) {
   Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
   Opened &= LoadResource(BG, "data/Background.png");
 
-  Opened &= RenderResources();
+  Opened &= RenderResources(windowSize);
 
   if (!Opened) {
     throw std::runtime_error("Failed to load data");
@@ -131,6 +131,8 @@ sf::Texture* AssetManager::GetCard(const CardTypes type) {
   }
 }
 
+sf::Texture* AssetManager::GetVignette() { return &Vignette; }
+
 sf::Texture* AssetManager::GetCardShadow() { return &Shadow; }
 
 sf::Texture* AssetManager::GetCardShade() { return &Shade; }
@@ -172,9 +174,10 @@ std::u8string AssetManager::GetText(const TextElement elem) {
   return u8"";
 }
 
-void AssetManager::SizeChanged(const sf::Vector2f offset, const float mult) {
+void AssetManager::SizeChanged(const sf::Vector2f offset, const float mult,
+                               const sf::Vector2i windowSize) {
   Mult = mult;
-  if (!RenderResources()) {
+  if (!RenderResources(windowSize)) {
     throw std::runtime_error("Failed to load data");
   }
 
@@ -240,15 +243,17 @@ bool AssetManager::OpenResource(auto& resource, const std::string& path) {
   return true;
 }
 
-bool AssetManager::RenderResources() {
+bool AssetManager::RenderResources(const sf::Vector2i windowSize) {
   bool Rendered = true;
+
+  Rendered &= LoadSVG(Vignette, "data/Vignette.svg", windowSize);
 
   // Backs
   Rendered &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
   Rendered &= LoadSVG(Shadow, "data/cards/Back.svg", ShadowSize);
-  Rendered &= LoadSVG(Shade, "data/cards/Back.svg", ShadeSize);
-  Rendered &= LoadSVG(Back, "data/cards/Back.svg", CardSize);
-  Rendered &= LoadSVG(Button, "data/cards/Back.svg", ButtonSize);
+  Rendered &= LoadSVG(Shade, "data/cards/Shade.svg", ShadeSize);
+  Rendered &= LoadSVG(Back, "data/cards/Front.svg", CardSize);
+  Rendered &= LoadSVG(Button, "data/cards/Front.svg", ButtonSize);
 
   // Cards
   Rendered &= LoadSVG(Word1, "data/cards/Word1.svg", ImageSize);
