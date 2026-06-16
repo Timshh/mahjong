@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "assetManager.h"
+#include "observer.h"
 #include "button.h"
 #include "card.h"
 #include "data.h"
@@ -9,7 +10,8 @@
 
 class GameField : public Actor {
  public:
-  GameField(sf::RenderWindow* const window, AssetManager* const manager,
+  GameField(sf::RenderWindow* const window, Observer* overseer,
+            AssetManager* const manager,
             const MahjongForms form);
   ~GameField();
 
@@ -24,6 +26,7 @@ class GameField : public Actor {
   void Hint();
 
  private:
+  Observer* Overseer;
   AssetManager* Manager;
   std::vector<std::vector<std::vector<Card*>>> Cards;
   Card* SelectedCard = nullptr;

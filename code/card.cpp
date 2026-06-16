@@ -1,6 +1,6 @@
 ﻿#include "card.h"
 
-Card::Card(sf::RenderWindow* window, AssetManager* manager,
+Card::Card(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
            const CardTypes type)
     : Actor(window),
       Shadow(*manager->GetCardShadow()),
@@ -9,7 +9,8 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
       Back(*manager->GetCardBack()),
       Face(*manager->GetCard(type)) {
   Manager = manager;
-  Manager->AddSubscriber(this);
+  Overseer = overseer;
+  Overseer->AddSubscriber(this);
   Type = type;
 
   Back.setColor(NormalColor);
@@ -24,7 +25,7 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   BackOffset = manager->BackOffset;
 }
 
-Card::~Card() { Manager->RemoveSubscriber(this); }
+Card::~Card() { Overseer->RemoveSubscriber(this); }
 
 CardTypes Card::GetType() { return Type; }
 

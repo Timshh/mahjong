@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include "actor.h"
+#include "observer.h"
 #include "assetManager.h"
 
 class Button : public Actor {
  public:
-  Button(sf::RenderWindow* window, AssetManager* manager, const TextElement type,
+  Button(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
+         const TextElement type,
          const float x, const float y);
   ~Button();
 
@@ -15,6 +17,7 @@ class Button : public Actor {
  private:
   bool IsMouseOnButton();
 
+  Observer* Overseer;
   TextElement Type;
   AssetManager* Manager;
   bool Pressed = false, Overlap = false;

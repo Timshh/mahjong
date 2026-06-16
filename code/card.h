@@ -2,11 +2,13 @@
 #include <SFML/Graphics.hpp>
 
 #include "assetManager.h"
+#include "observer.h"
 #include "data.h"
 
 class Card : public Actor {
  public:
-  Card(sf::RenderWindow* window, AssetManager* manager, const CardTypes type);
+  Card(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
+       const CardTypes type);
   ~Card();
 
   CardTypes GetType();
@@ -22,6 +24,7 @@ class Card : public Actor {
   bool IsMouseOnCard();
 
   int PosX = 0, PosY = 0;
+  Observer* Overseer;
   AssetManager* Manager;
   CardStates State = CardStates::Idle;
   CardTypes Type;

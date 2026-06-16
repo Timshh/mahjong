@@ -3,14 +3,15 @@
 Gamemode::Gamemode(sf::RenderWindow* window)
     : Manager(AssetManager(sf::Vector2i(window->getSize()))),
       NameText(Manager.MainFont, "Mahjong", 140),
-      PauseButton(window, &Manager, TextElement::Pause, 50, 40),
-      ResumeButton(window, &Manager, TextElement::Resume, 850, 400),
-      TurtleButton(window, &Manager, TextElement::Turtle, 850, 500),
-      WaveButton(window, &Manager, TextElement::Wave, 850, 600),
-      QuitButton(window, &Manager, TextElement::Quit, 850, 800),
-      LangButton(window, &Manager, TextElement::Language, 850, 700),
+      PauseButton(window, &Overseer, &Manager, TextElement::Pause, 50, 40),
+      ResumeButton(window, &Overseer, &Manager, TextElement::Resume, 850, 400),
+      TurtleButton(window, &Overseer, &Manager, TextElement::Turtle, 850, 500),
+      WaveButton(window, &Overseer, &Manager, TextElement::Wave, 850, 600),
+      QuitButton(window, &Overseer, &Manager, TextElement::Quit, 850, 800),
+      LangButton(window, &Overseer, &Manager, TextElement::Language, 850, 700),
       BG(*Manager.GetBG()),
-      Vignette(*Manager.GetVignette()) {
+      Vignette(*Manager.GetVignette()),
+      Overseer(&Manager) {
   Window = window;
 
   BG.setColor(sf::Color(127, 127, 127, 255));
@@ -32,14 +33,16 @@ void Gamemode::Tick() {
           return;
         }
         if (LangButton.Tick()) {
-          Manager.SwapLanguage();
+          Overseer.SwapLanguage();
         }
         if (TurtleButton.Tick()) {
-          Field.reset(new GameField(Window, &Manager, MahjongForms::Turtle));
+          Field.reset(
+              new GameField(Window, &Overseer, &Manager, MahjongForms::Turtle));
           State = GameStates::Idle;
         }
         if (WaveButton.Tick()) {
-          Field.reset(new GameField(Window, &Manager, MahjongForms::Wave));
+          Field.reset(
+              new GameField(Window, &Overseer, &Manager, MahjongForms::Wave));
           State = GameStates::Idle;
         }
         if (Field.get() != nullptr) {
@@ -91,7 +94,7 @@ void Gamemode::Resize() {
   NameText.setPosition(
       sf::Vector2f(mult / 120. * 725. + offsetX, mult / 120. * 200. + offsetY));
 
-  Manager.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.,
+  Overseer.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.,
                       sf::Vector2i(Window->getSize()));
 
   Vignette.setTextureRect(sf::IntRect(
@@ -100,5 +103,5 @@ void Gamemode::Resize() {
 
 void Gamemode::DrawBG() {
   Window->draw(BG);
-  //Window->draw(Vignette);
+  // Window->draw(Vignette);
 }

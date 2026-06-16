@@ -1,13 +1,14 @@
 ﻿#include "gameField.h"
 
-GameField::GameField(sf::RenderWindow* const window,
+GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
                      AssetManager* const manager, const MahjongForms form)
     : Actor(window),
       PairsText(manager->MainFont, "", 40),
-      HintButton(window, manager, TextElement::Hint, 50, 240),
-      RefreshButton(window, manager, TextElement::Refresh, 50, 340) {
-  manager->AddSubscriber(this);
+      HintButton(window, overseer, manager, TextElement::Hint, 50, 240),
+      RefreshButton(window, overseer, manager, TextElement::Refresh, 50, 340) {
   Manager = manager;
+  Overseer = overseer;
+  Overseer->AddSubscriber(this);
   Form = form;
   GenerateField();
   CheckPairs();
@@ -25,7 +26,7 @@ GameField::~GameField() {
     for (int x = 0; x < FieldWidth; ++x) {
       for (int y = 0; y < FieldWidth; ++y) {
         if (Cards[z][y][x]) {
-          if (Cards[z][y][x]->Coords == sf::Vector2i(x-1, y-1)) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x - 1, y - 1)) {
             delete Cards[z][y][x];
           }
         }
@@ -100,10 +101,10 @@ void GameField::Tick() {
 }
 
 void GameField::TickDraw() {
+
   std::string num = std::to_string(Pairs);
-  std::u8string result =
-      PairsLang +
-      std::u8string(reinterpret_cast<const char8_t*>(num.size(), num.data()));
+  std::u8string num8(num.begin(), num.end());
+  std::u8string result = PairsLang + num8;
   PairsText.setString(sf::String::fromUtf8(result.begin(), result.end()));
   Window->draw(PairsText);
 }
@@ -316,7 +317,7 @@ void GameField::GenerateField() {
       int id = rand() % coords.size();
       sf::Vector3i currCoord = coords[id];
       Cards[currCoord.z][currCoord.y][currCoord.x] =
-          new Card(Window, Manager, currType);
+          new Card(Window, Overseer, Manager, currType);
       Cards[currCoord.z][currCoord.y][currCoord.x]->SetLocation(
           currCoord.x * CardSizeX + FieldOffsetX - currCoord.z * CardOffsetZX +
               OffsetX,

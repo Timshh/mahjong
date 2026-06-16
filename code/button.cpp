@@ -1,13 +1,15 @@
 ﻿#include "button.h"
 
-Button::Button(sf::RenderWindow* window, AssetManager* manager,
+Button::Button(sf::RenderWindow* window, Observer* overseer,
+               AssetManager* manager,
                const TextElement type, const float x, const float y)
     : Actor(window),
       Back(*manager->GetButton()),
       ButtonText(manager->MainFont, "", 40) {
   Type = type;
   Manager = manager;
-  Manager->AddSubscriber(this);
+  Overseer = overseer;
+  Overseer->AddSubscriber(this);
   Back.setColor(NormalColor);
 
   Back.setColor(sf::Color(230, 230, 230, 255));
@@ -24,7 +26,7 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
   ChangeLanguage();
 }
 
-Button::~Button() { Manager->RemoveSubscriber(this); }
+Button::~Button() { Overseer->RemoveSubscriber(this); }
 
 void Button::ResetScales(const sf::Vector2f offset, const float mult) {
   Back.setPosition(
