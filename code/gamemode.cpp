@@ -16,6 +16,7 @@ Gamemode::Gamemode(sf::RenderWindow* window)
   BG.setColor(sf::Color(127, 127, 127, 255));
   NameText.setPosition(sf::Vector2f(725, 200));
   NameText.setFillColor(sf::Color::Black);
+  Resize();
 }
 
 void Gamemode::Tick() {

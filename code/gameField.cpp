@@ -20,6 +20,20 @@ GameField::GameField(sf::RenderWindow* const window,
               mult / 120.);
 }
 
+GameField::~GameField() {
+  for (int z = 0; z < Cards.size(); ++z) {
+    for (int x = 0; x < FieldWidth; ++x) {
+      for (int y = 0; y < FieldWidth; ++y) {
+        if (Cards[z][y][x]) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x-1, y-1)) {
+            delete Cards[z][y][x];
+          }
+        }
+      }
+    }
+  }
+}
+
 void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
   PairsText.setPosition(
       sf::Vector2f(60 * mult + offset.x, 155 * mult + offset.y));
@@ -87,8 +101,10 @@ void GameField::Tick() {
 
 void GameField::TickDraw() {
   std::string num = std::to_string(Pairs);
-  std::u8string result = PairsLang + std::u8string(reinterpret_cast<const char8_t*>(num.size(), num.data()));
-  PairsText.setString(sf::String::fromUtf8(result.begin(),result.end()));
+  std::u8string result =
+      PairsLang +
+      std::u8string(reinterpret_cast<const char8_t*>(num.size(), num.data()));
+  PairsText.setString(sf::String::fromUtf8(result.begin(), result.end()));
   Window->draw(PairsText);
 }
 

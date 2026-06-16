@@ -6,6 +6,7 @@
 class Actor{
  public:
   Actor(sf::RenderWindow* const window);
+  virtual ~Actor() = default;
 
   void virtual ResetScales(const sf::Vector2f offset, const float mult);
   void virtual ChangeLanguage();

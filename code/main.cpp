@@ -7,7 +7,7 @@
 int main() {
   srand(time(NULL));
 
-  sf::RenderWindow Window(sf::VideoMode({1920, 1080}), "Mahjong",
+  sf::RenderWindow Window(sf::VideoMode({800, 600}), "Mahjong",
                           sf::State::Windowed);
   Gamemode GM = Gamemode(&Window);
 

@@ -15,7 +15,7 @@ Card::Card(sf::RenderWindow* window, AssetManager* manager,
   Back.setColor(NormalColor);
   Edge.setColor(sf::Color(150, 150, 150, 255));
   Shadow.setColor(sf::Color(50, 50, 50, 255));
-  Shade.setColor(sf::Color(20, 20, 20, 155));
+  Shade.setColor(sf::Color(20, 20, 20, 105));
 
   ImageOffset = manager->ImageOffset;
   ShadowOffset = manager->ShadowOffset;

@@ -11,6 +11,7 @@ class GameField : public Actor {
  public:
   GameField(sf::RenderWindow* const window, AssetManager* const manager,
             const MahjongForms form);
+  ~GameField();
 
   void ResetScales(const sf::Vector2f offset, const float mult) override;
   void ChangeLanguage() override;
