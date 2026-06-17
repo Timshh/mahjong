@@ -4,6 +4,7 @@ GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
                      AssetManager* const manager, const MahjongForms form)
     : Actor(window),
       PairsText(manager->MainFont, "", 40),
+      WinText(manager->MainFont, "", 120),
       HintButton(window, overseer, manager, TextElement::Hint, 50, 240),
       RefreshButton(window, overseer, manager, TextElement::Refresh, 50, 340) {
   Manager = manager;
@@ -14,6 +15,9 @@ GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
   CheckPairs();
   PairsLang = manager->GetText(TextElement::Pairs);
   PairsText.setFillColor(sf::Color::Black);
+  std::u8string wintext = Manager->GetText(TextElement::Victory);
+  WinText.setString(sf::String::fromUtf8(wintext.begin(), wintext.end()));
+  WinText.setFillColor(sf::Color::Black);
 
   int mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
@@ -39,14 +43,20 @@ void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
   PairsText.setPosition(
       sf::Vector2f(60 * mult + offset.x, 155 * mult + offset.y));
   PairsText.setCharacterSize(mult * 40);
+  WinText.setPosition(
+      sf::Vector2f(750 * mult + offset.x, 400 * mult + offset.y));
+  WinText.setCharacterSize(mult * 120);
 }
 
 void GameField::ChangeLanguage() {
   PairsLang = Manager->GetText(TextElement::Pairs);
+  std::u8string wintext = Manager->GetText(TextElement::Victory);
+  WinText.setString(sf::String::fromUtf8(wintext.begin(), wintext.end()));
 }
 
 void GameField::Tick() {
-  if (State == FieldStates::Idle) {
+  switch (State) {
+  case FieldStates::Idle:
     if (RefreshButton.Tick()) {
       Refresh();
     }
@@ -92,9 +102,11 @@ void GameField::Tick() {
     if (Clicked) {
       Click(0, 0, 0, false);
     }
-  } else {
+    break;
+  case FieldStates::Finished:
     RefreshButton.Tick();
     HintButton.Tick();
+    break;
   }
 
   TickDraw();
@@ -107,6 +119,9 @@ void GameField::TickDraw() {
   std::u8string result = PairsLang + num8;
   PairsText.setString(sf::String::fromUtf8(result.begin(), result.end()));
   Window->draw(PairsText);
+  if (State == FieldStates::Finished) {
+    Window->draw(WinText);
+  }
 }
 
 void GameField::Click(const int cardZ, const int cardX, const int cardY,
@@ -153,12 +168,14 @@ void GameField::Click(const int cardZ, const int cardX, const int cardY,
 
 void GameField::CheckPairs() {
   Pairs = 0;
+  bool isempty = true;
   std::vector<int> pairVector;
   pairVector.resize(static_cast<int>(CardTypes::COUNT));
   for (int z = 0; z < Cards.size(); ++z) {
     for (int y = 0; y < Cards[z].size(); ++y) {
       for (int x = 0; x < Cards[z][y].size(); ++x) {
         if (Cards[z][y][x]) {
+          isempty = false;
           if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
             if (CheckReachable(z, y, x)) {
               pairVector[static_cast<int>(Cards[z][y][x]->GetType())] += 1;
@@ -167,6 +184,9 @@ void GameField::CheckPairs() {
         }
       }
     }
+  }
+  if (isempty) {
+    State = FieldStates::Finished;
   }
   for (int i : pairVector) {
     Pairs += i / 2;

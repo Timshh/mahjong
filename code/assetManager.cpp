@@ -58,6 +58,9 @@ std::u8string AssetManager::GetText(const TextElement elem) {
     case TextElement::Wave:
       return CurrentLanguage.WaveText;
       break;
+    case TextElement::Victory:
+      return CurrentLanguage.WinText;
+      break;
   }
   return u8"";
 }

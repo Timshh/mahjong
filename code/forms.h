@@ -177,5 +177,4 @@ inline std::map<MahjongForms, Form> Forms = {
 
                                  {13, 7, 4}})},
 
-    {MahjongForms::Wave, Form(4, 14, 14, 600, 100,
-                                {})}};
+    {MahjongForms::Wave, Form(4, 14, 14, 600, 100, {})}};

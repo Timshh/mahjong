@@ -33,7 +33,7 @@ class GameField : public Actor {
 
   void GenerateField();
 
-  sf::Text PairsText;
+  sf::Text PairsText, WinText;
   sf::Vector3i SelectedCoords;
   Button RefreshButton, HintButton;
   FieldStates State = FieldStates::Idle;
