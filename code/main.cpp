@@ -4,6 +4,12 @@
 
 #include "gamemode.h"
 
+#ifndef _RELEASE
+
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
+#endif 
+
 int main() {
   srand(time(NULL));
 

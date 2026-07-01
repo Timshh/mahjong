@@ -37,6 +37,7 @@ GameField::~GameField() {
       }
     }
   }
+  Overseer->RemoveSubscriber(this);
 }
 
 void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
