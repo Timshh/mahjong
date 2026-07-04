@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <SFML/Graphics/Text.hpp>
 #include "actor.h"
 #include "observer.h"
 #include "assetManager.h"

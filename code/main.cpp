@@ -1,5 +1,4 @@
-﻿#include <SFML/Graphics.hpp>
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <ctime>
 
 #include "gamemode.h"

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <map>
 
 enum class MahjongForms { Turtle, Wave };

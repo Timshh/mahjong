@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "assetManager.h"
 #include "observer.h"

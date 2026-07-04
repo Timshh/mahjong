@@ -1,9 +1,7 @@
 ﻿#pragma once
-#include <SFML/Graphics.hpp>
 
 #include "assetManager.h"
 #include "observer.h"
-#include "data.h"
 
 class Card : public Actor {
  public:

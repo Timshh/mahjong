@@ -1,10 +1,9 @@
 ﻿#pragma once
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "assetManager.h"
 #include "button.h"
 #include "observer.h"
-#include "forms.h"
 #include "gameField.h"
 
 class Gamemode {

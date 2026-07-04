@@ -1,12 +1,10 @@
 ﻿#pragma once
 #include <lunasvg.h>
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "actor.h"
 #include "assetManager.h"
-#include "data.h"
 
 class Observer {
  public:

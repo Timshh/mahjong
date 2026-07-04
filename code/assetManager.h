@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include <lunasvg.h>
-
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <iostream>
 
-#include "actor.h"
 #include "data.h"
 
 class AssetManager {

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <SFML/Graphics/Sprite.hpp>
 #include <map>
 
 enum class GameStates { Idle, Pause };
