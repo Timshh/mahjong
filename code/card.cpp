@@ -69,14 +69,17 @@ bool Card::Tick(const bool reachable, const bool click) {
       }
     }
   }
-  Window->draw(Shadow);
-  Window->draw(Edge);
-  Window->draw(Back);
-  Window->draw(Face);
   if (State == CardStates::Highlighted) {
     ChangeState(CardStates::Idle);
   }
   return result;
+}
+
+void Card::Draw() {
+  Window->draw(Shadow);
+  Window->draw(Edge);
+  Window->draw(Back);
+  Window->draw(Face);
 }
 
 void Card::ShadeTick() { Window->draw(Shade); }

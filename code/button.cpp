@@ -67,10 +67,12 @@ bool Button::Tick() {
       Back.setColor(NormalColor);
     }
   }
+  return result;
+}
+
+void Button::Draw() {
   Window->draw(Back);
   Window->draw(ButtonText);
-
-  return result;
 }
 
 bool Button::IsMouseOnButton() {

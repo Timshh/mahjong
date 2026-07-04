@@ -82,15 +82,6 @@ void GameField::Tick() {
         for (int y = 0; y < FieldWidth; ++y) {
           if (Cards[z][y][x]) {
             if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
-              Cards[z][y][x]->ShadeTick();
-            }
-          }
-        }
-      }
-      for (int x = 0; x < FieldWidth; ++x) {
-        for (int y = 0; y < FieldWidth; ++y) {
-          if (Cards[z][y][x]) {
-            if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
               if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
                 Click(z, y, x, true);
                 Clicked = false;
@@ -109,19 +100,39 @@ void GameField::Tick() {
     HintButton.Tick();
     break;
   }
-
-  TickDraw();
-}
-
-void GameField::TickDraw() {
-
   std::string num = std::to_string(Pairs);
   std::u8string num8(num.begin(), num.end());
   std::u8string result = PairsLang + num8;
   PairsText.setString(sf::String::fromUtf8(result.begin(), result.end()));
+}
+
+void GameField::Draw() {
+  RefreshButton.Draw();
+  HintButton.Draw();
+
   Window->draw(PairsText);
   if (State == FieldStates::Finished) {
     Window->draw(WinText);
+  }
+  for (int z = 0; z < Cards.size(); ++z) {
+    for (int x = 0; x < FieldWidth; ++x) {
+      for (int y = 0; y < FieldWidth; ++y) {
+        if (Cards[z][y][x]) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+            Cards[z][y][x]->ShadeTick();
+          }
+        }
+      }
+    }
+    for (int x = 0; x < FieldWidth; ++x) {
+      for (int y = 0; y < FieldWidth; ++y) {
+        if (Cards[z][y][x]) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+            Cards[z][y][x]->Draw();
+          }
+        }
+      }
+    }
   }
 }
 

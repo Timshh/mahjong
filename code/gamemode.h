@@ -11,6 +11,7 @@ class Gamemode {
  public:
   Gamemode(sf::RenderWindow* window);
   void Tick();
+  void Draw();
   void Resize();
 
  private:

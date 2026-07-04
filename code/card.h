@@ -14,6 +14,7 @@ class Card : public Actor {
   CardTypes GetType();
   void ResetScales(const sf::Vector2f offset, const float mult) override;
   bool Tick(const bool reachable, const bool click);
+  void Draw();
   void ShadeTick();
   void SetLocation(const float x, const float y, const sf::Vector2i coords);
   void ChangeType(const CardTypes type, AssetManager* manager);

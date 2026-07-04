@@ -27,6 +27,7 @@ int main() {
       }
     }
     GM.Tick();
+    GM.Draw();
   }
   return 0;
 }

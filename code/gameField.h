@@ -18,7 +18,7 @@ class GameField : public Actor {
   void ResetScales(const sf::Vector2f offset, const float mult) override;
   void ChangeLanguage() override;
   void Tick();
-  void TickDraw();
+  void Draw();
   void Click(int cardZ, int cardX, int cardY, bool isNewValid);
   void CheckPairs();
   bool CheckReachable(int cardZ, int cardX, int cardY);

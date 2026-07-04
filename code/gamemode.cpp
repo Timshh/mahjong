@@ -21,10 +21,6 @@ Gamemode::Gamemode(sf::RenderWindow* window)
 }
 
 void Gamemode::Tick() {
-  TimeDelta += Time.restart().asSeconds();
-  if (TimeDelta >= 1. / 60.) {
-    Window->clear();
-    DrawBG();
     switch (State) {
       case GameStates::Pause:
         Window->draw(NameText);
@@ -80,11 +76,33 @@ void Gamemode::Tick() {
         Field->Tick();
         break;
     }
+}
+
+void Gamemode::Draw() {
+  TimeDelta += Time.restart().asSeconds();
+  if (TimeDelta >= 1. / 60.) {
+    Window->clear();
+    DrawBG();
+    switch (State) {
+      case GameStates::Pause:
+        Window->draw(NameText);
+        QuitButton.Draw();
+        LangButton.Draw();
+        TurtleButton.Draw();
+        WaveButton.Draw();
+        if (Field.get() != nullptr) {
+          ResumeButton.Draw();
+        }
+        break;
+      case GameStates::Idle:
+        PauseButton.Draw();
+        Field->Draw();
+        break;
+    }
     Window->display();
     TimeDelta = 0;
   }
 }
-
 void Gamemode::Resize() {
   float mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   int offsetX = (Window->getSize().x - mult * 16) / 2,
@@ -95,7 +113,7 @@ void Gamemode::Resize() {
       sf::Vector2f(mult / 120. * 725. + offsetX, mult / 120. * 200. + offsetY));
 
   Overseer.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.,
-                      sf::Vector2i(Window->getSize()));
+                       sf::Vector2i(Window->getSize()));
 
   Vignette.setTextureRect(sf::IntRect(
       sf::Vector2i(0, 0), sf::Vector2i(Manager.GetVignette()->getSize())));

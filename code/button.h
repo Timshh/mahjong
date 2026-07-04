@@ -13,6 +13,7 @@ class Button : public Actor {
   void ResetScales(const sf::Vector2f offset, const float mult) override;
   void ChangeLanguage() override;
   bool Tick();
+  void Draw();
 
  private:
   bool IsMouseOnButton();
