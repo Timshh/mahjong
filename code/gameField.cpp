@@ -3,14 +3,15 @@
 GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
                      AssetManager* const manager, const MahjongForms form)
     : Actor(window),
+      Manager(manager),
+      Form(form),
+      Overseer(overseer),
       PairsText(manager->MainFont, "", 40),
       WinText(manager->MainFont, "", 120),
       HintButton(window, overseer, manager, TextElement::Hint, 50, 240),
       RefreshButton(window, overseer, manager, TextElement::Refresh, 50, 340) {
-  Manager = manager;
-  Overseer = overseer;
+
   Overseer->AddSubscriber(this);
-  Form = form;
   GenerateField();
   CheckPairs();
   PairsLang = manager->GetText(TextElement::Pairs);

@@ -1,10 +1,10 @@
 ﻿#include "observer.h"
 
-Observer::Observer(AssetManager* manager) { Manager = manager; }
+Observer::Observer(AssetManager* manager) : Manager(manager) {}
 
 void Observer::SizeChanged(const sf::Vector2f offset, const float mult,
-                               const sf::Vector2i windowSize) {
-    Manager->SizeChanged(offset, mult, windowSize);
+                           const sf::Vector2i windowSize) {
+  Manager->SizeChanged(offset, mult, windowSize);
 
   for (Actor* actor : Subscribers) {
     actor->ResetScales(sf::Vector2f(offset.x, offset.y), mult);

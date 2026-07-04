@@ -4,11 +4,11 @@ Button::Button(sf::RenderWindow* window, Observer* overseer,
                AssetManager* manager,
                const TextElement type, const float x, const float y)
     : Actor(window),
+      Manager(manager),
+      Type(type),
+      Overseer(overseer),
       Back(*manager->GetButton()),
       ButtonText(manager->MainFont, "", 40) {
-  Type = type;
-  Manager = manager;
-  Overseer = overseer;
   Overseer->AddSubscriber(this);
   Back.setColor(NormalColor);
 

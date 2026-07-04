@@ -3,15 +3,15 @@
 Card::Card(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
            const CardTypes type)
     : Actor(window),
+      Manager(manager),
+      Type(type),
+      Overseer(overseer),
       Shadow(*manager->GetCardShadow()),
       Shade(*manager->GetCardShade()),
       Edge(*manager->GetCardShadow()),
       Back(*manager->GetCardBack()),
       Face(*manager->GetCard(type)) {
-  Manager = manager;
-  Overseer = overseer;
   Overseer->AddSubscriber(this);
-  Type = type;
 
   Back.setColor(NormalColor);
   Edge.setColor(sf::Color(150, 150, 150, 255));

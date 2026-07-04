@@ -1,7 +1,8 @@
 ﻿#include "gamemode.h"
 
 Gamemode::Gamemode(sf::RenderWindow* window)
-    : Manager(AssetManager(sf::Vector2i(window->getSize()))),
+    : Manager(sf::Vector2i(window->getSize())),
+      Window(window),
       NameText(Manager.MainFont, "Mahjong", 140),
       PauseButton(window, &Overseer, &Manager, TextElement::Pause, 50, 40),
       ResumeButton(window, &Overseer, &Manager, TextElement::Resume, 850, 400),
@@ -12,7 +13,6 @@ Gamemode::Gamemode(sf::RenderWindow* window)
       BG(*Manager.GetBG()),
       Vignette(*Manager.GetVignette()),
       Overseer(&Manager) {
-  Window = window;
 
   BG.setColor(sf::Color(127, 127, 127, 255));
   NameText.setPosition(sf::Vector2f(725, 200));
