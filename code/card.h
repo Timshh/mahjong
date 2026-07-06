@@ -27,6 +27,6 @@ class Card : public Actor {
   AssetManager* Manager;
   CardStates State = CardStates::Idle;
   CardTypes Type;
-  sf::Sprite Edge, Shadow, Back, Face, Shade;
-  sf::Vector2f ImageOffset, EdgeOffset, BackOffset, ShadowOffset, ShadeOffset;
+  sf::Sprite Back, Face, Shade;
+  sf::Vector2f ImageOffset, BackOffset, ShadeOffset;
 };

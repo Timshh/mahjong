@@ -13,7 +13,6 @@ class AssetManager {
 
   sf::Texture* GetBG();
   sf::Texture* GetVignette();
-  sf::Texture* GetCardShadow();
   sf::Texture* GetCardShade();
   sf::Texture* GetCardBack();
   sf::Texture* GetCard(const CardTypes type);
@@ -27,10 +26,8 @@ class AssetManager {
   sf::Texture Empty;
 
   const sf::Vector2f ImageOffset = sf::Vector2f(10.5, 14),
-                     EdgeOffset = sf::Vector2f(0, 0),
-                     ShadowOffset = sf::Vector2f(5, 5),
                      ShadeOffset = sf::Vector2f(-16, -8),
-                     BackOffset = sf::Vector2f(2, 2);
+                     BackOffset = sf::Vector2f(0, 0);
 
  private:
   bool LoadResource(auto& resource, const std::string& path);
@@ -43,11 +40,10 @@ class AssetManager {
   Language Lang = Language::Russian;
   LanguageSet CurrentLanguage = Languages[Language::Russian];
   std::map<CardTypes, sf::Texture> FaceTextures;
-  sf::Texture Vignette, Shadow, Shade, Back, Button, BG;
+  sf::Texture Vignette, Shade, Back, Button, BG;
 
-  const sf::Vector2i CardSize = sf::Vector2i(90, 120),
-                     ShadowSize = sf::Vector2i(96, 126),
-                     ShadeSize = sf::Vector2i(110, 138),
+  const sf::Vector2i CardSize = sf::Vector2i(100, 130),
+                     ShadeSize = sf::Vector2i(100, 128),
                      ImageSize = sf::Vector2i(69, 92),
                      ButtonSize = sf::Vector2i(90, 180);
 };

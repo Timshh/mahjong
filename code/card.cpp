@@ -6,23 +6,16 @@ Card::Card(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
       Manager(manager),
       Type(type),
       Overseer(overseer),
-      Shadow(*manager->GetCardShadow()),
+      ImageOffset(manager->ImageOffset),
+      ShadeOffset(manager->ShadeOffset),
+      BackOffset(manager->BackOffset),
       Shade(*manager->GetCardShade()),
-      Edge(*manager->GetCardShadow()),
       Back(*manager->GetCardBack()),
       Face(*manager->GetCard(type)) {
   Overseer->AddSubscriber(this);
 
   Back.setColor(NormalColor);
-  Edge.setColor(sf::Color(150, 150, 150, 255));
-  Shadow.setColor(sf::Color(50, 50, 50, 255));
-  Shade.setColor(sf::Color(20, 20, 20, 105));
-
-  ImageOffset = manager->ImageOffset;
-  ShadowOffset = manager->ShadowOffset;
-  ShadeOffset = manager->ShadeOffset;
-  EdgeOffset = manager->EdgeOffset;
-  BackOffset = manager->BackOffset;
+  Shade.setColor(sf::Color(20, 20, 20, 155));
 }
 
 Card::~Card() { Overseer->RemoveSubscriber(this); }
@@ -35,21 +28,13 @@ void Card::ResetScales(const sf::Vector2f offset, const float mult) {
   }
   Back.setPosition(sf::Vector2f((PosX + BackOffset.x) * mult + offset.x,
                                 (PosY + BackOffset.y) * mult + offset.y));
-  Edge.setPosition(sf::Vector2f((PosX + EdgeOffset.x) * mult + offset.x,
-                                (PosY + EdgeOffset.y) * mult + offset.y));
   Face.setPosition(sf::Vector2f((PosX + ImageOffset.x) * mult + offset.x,
                                 (PosY + ImageOffset.y) * mult + offset.y));
-  Shadow.setPosition(sf::Vector2f((PosX + ShadowOffset.x) * mult + offset.x,
-                                  (PosY + ShadowOffset.y) * mult + offset.y));
   Shade.setPosition(sf::Vector2f((PosX + ShadeOffset.x) * mult + offset.x,
                                  (PosY + ShadeOffset.y) * mult + offset.y));
 
-  Shadow.setTextureRect(sf::IntRect(
-      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShadow()->getSize())));
   Shade.setTextureRect(sf::IntRect(
       sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShade()->getSize())));
-  Edge.setTextureRect(sf::IntRect(
-      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShadow()->getSize())));
   Back.setTextureRect(sf::IntRect(
       sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardBack()->getSize())));
   Face.setTextureRect(sf::IntRect(
@@ -69,17 +54,15 @@ bool Card::Tick(const bool reachable, const bool click) {
       }
     }
   }
-  if (State == CardStates::Highlighted) {
-    ChangeState(CardStates::Idle);
-  }
   return result;
 }
 
 void Card::Draw() {
-  Window->draw(Shadow);
-  Window->draw(Edge);
   Window->draw(Back);
   Window->draw(Face);
+  if (State == CardStates::Highlighted) {
+    ChangeState(CardStates::Idle);
+  }
 }
 
 void Card::ShadeTick() { Window->draw(Shade); }

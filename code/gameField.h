@@ -43,7 +43,7 @@ class GameField : public Actor {
   std::u8string PairsLang;
 
   const float CardSizeX = 92 / 2, CardSizeY = 122 / 2, OffsetY = 40,
-              OffsetX = 10, CardOffsetZY = 19 / 2, CardOffsetZX = 19 / 2;
+              OffsetX = 10, CardOffsetZY = 15 / 2, CardOffsetZX = 15 / 2;
   float FieldOffsetX = 250, FieldOffsetY = 0;
   int FieldHeight, FieldWidth;
 };
