@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include "actor.h"
 #include "observer.h"
 #include "assetManager.h"
@@ -24,6 +25,7 @@ class Button : public Actor {
   AssetManager* Manager;
   bool Pressed = false, Overlap = false;
   sf::Vector2i Position;
+  sf::Sound ClickSound, HighlightSound;
   sf::Text ButtonText;
   sf::Sprite Back;
 };

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 #include "assetManager.h"
 #include "observer.h"
@@ -46,4 +47,5 @@ class GameField : public Actor {
               OffsetX = 10, CardOffsetZY = 15 / 2, CardOffsetZX = 15 / 2;
   float FieldOffsetX = 250, FieldOffsetY = 0;
   int FieldHeight, FieldWidth;
+  sf::Sound DestroySound, WinSound;
 };

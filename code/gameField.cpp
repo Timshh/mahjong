@@ -8,9 +8,10 @@ GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
       Overseer(overseer),
       PairsText(manager->MainFont, "", 40),
       WinText(manager->MainFont, "", 120),
+      WinSound(*manager->GetWinSound()),
+      DestroySound(*manager->GetDestroySound()),
       HintButton(window, overseer, manager, TextElement::Hint, 50, 240),
       RefreshButton(window, overseer, manager, TextElement::Refresh, 50, 340) {
-
   Overseer->AddSubscriber(this);
   GenerateField();
   CheckPairs();
@@ -58,48 +59,48 @@ void GameField::ChangeLanguage() {
 
 void GameField::Tick() {
   switch (State) {
-  case FieldStates::Idle:
-    if (RefreshButton.Tick()) {
-      Refresh();
-    }
-
-    if (HintButton.Tick()) {
-      Hint();
-    }
-
-    Clicked = false;
-
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-      if (CanClick) {
-        Clicked = true;
-        CanClick = false;
+    case FieldStates::Idle:
+      if (RefreshButton.Tick()) {
+        Refresh();
       }
-    } else {
-      CanClick = true;
-    }
 
-    for (int z = 0; z < Cards.size(); ++z) {
-      for (int x = 0; x < FieldWidth; ++x) {
-        for (int y = 0; y < FieldWidth; ++y) {
-          if (Cards[z][y][x]) {
-            if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
-              if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
-                Click(z, y, x, true);
-                Clicked = false;
+      if (HintButton.Tick()) {
+        Hint();
+      }
+
+      Clicked = false;
+
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        if (CanClick) {
+          Clicked = true;
+          CanClick = false;
+        }
+      } else {
+        CanClick = true;
+      }
+
+      for (int z = 0; z < Cards.size(); ++z) {
+        for (int x = 0; x < FieldWidth; ++x) {
+          for (int y = 0; y < FieldWidth; ++y) {
+            if (Cards[z][y][x]) {
+              if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+                if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
+                  Click(z, y, x, true);
+                  Clicked = false;
+                }
               }
             }
           }
         }
       }
-    }
-    if (Clicked) {
-      Click(0, 0, 0, false);
-    }
-    break;
-  case FieldStates::Finished:
-    RefreshButton.Tick();
-    HintButton.Tick();
-    break;
+      if (Clicked) {
+        Click(0, 0, 0, false);
+      }
+      break;
+    case FieldStates::Finished:
+      RefreshButton.Tick();
+      HintButton.Tick();
+      break;
   }
   std::string num = std::to_string(Pairs);
   std::u8string num8(num.begin(), num.end());
@@ -145,6 +146,7 @@ void GameField::Click(const int cardZ, const int cardX, const int cardY,
         return;
       }
       if (SelectedCard->GetType() == Cards[cardZ][cardX][cardY]->GetType()) {
+        DestroySound.play();
         delete SelectedCard;
         delete Cards[cardZ][cardX][cardY];
 
@@ -199,6 +201,7 @@ void GameField::CheckPairs() {
     }
   }
   if (isempty) {
+    WinSound.play();
     State = FieldStates::Finished;
   }
   for (int i : pairVector) {

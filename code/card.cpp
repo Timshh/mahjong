@@ -9,6 +9,8 @@ Card::Card(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
       ImageOffset(manager->ImageOffset),
       ShadeOffset(manager->ShadeOffset),
       BackOffset(manager->BackOffset),
+      HighlightSound(*manager->GetCardHighlightSound()),
+      ClickSound(*manager->GetCardClickSound()),
       Shade(*manager->GetCardShade()),
       Back(*manager->GetCardBack()),
       Face(*manager->GetCard(type)) {
@@ -60,7 +62,7 @@ bool Card::Tick(const bool reachable, const bool click) {
 void Card::Draw() {
   Window->draw(Back);
   Window->draw(Face);
-  if (State == CardStates::Highlighted) {
+  if (State == CardStates::Highlighted and !IsMouseOnCard()) {
     ChangeState(CardStates::Idle);
   }
 }
@@ -106,9 +108,11 @@ void Card::ChangeState(CardStates state) {
       Back.setColor(HintedColor);
       break;
     case CardStates::Selected:
+      ClickSound.play();
       Back.setColor(SelectedColor);
       break;
     case CardStates::Highlighted:
+      //HighlightSound.play();
       Back.setColor(HighlightedColor);
       break;
   }

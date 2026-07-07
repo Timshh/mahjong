@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include <SFML/Audio/Sound.hpp>
 #include "assetManager.h"
 #include "observer.h"
 
@@ -28,5 +28,6 @@ class Card : public Actor {
   CardStates State = CardStates::Idle;
   CardTypes Type;
   sf::Sprite Back, Face, Shade;
+  sf::Sound ClickSound,HighlightSound;
   sf::Vector2f ImageOffset, BackOffset, ShadeOffset;
 };

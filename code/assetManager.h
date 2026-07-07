@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include <lunasvg.h>
+
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Font.hpp>
 #include <iostream>
 
 #include "data.h"
@@ -15,6 +17,12 @@ class AssetManager {
   sf::Texture* GetVignette();
   sf::Texture* GetCardShade();
   sf::Texture* GetCardBack();
+  sf::SoundBuffer* GetCardHighlightSound();
+  sf::SoundBuffer* GetButtonHighlightSound();
+  sf::SoundBuffer* GetDestroySound();
+  sf::SoundBuffer* GetButtonClickSound();
+  sf::SoundBuffer* GetCardClickSound();
+  sf::SoundBuffer* GetWinSound();
   sf::Texture* GetCard(const CardTypes type);
   sf::Texture* GetButton();
   std::u8string GetText(const TextElement elem);
@@ -41,6 +49,9 @@ class AssetManager {
   LanguageSet CurrentLanguage = Languages[Language::Russian];
   std::map<CardTypes, sf::Texture> FaceTextures;
   sf::Texture Vignette, Shade, Back, Button, BG;
+  sf::SoundBuffer ButtonHighlightSound, CardHighlightSound, CardSound, WinSound,
+      ButtonSound,
+      DestroySound;
 
   const sf::Vector2i CardSize = sf::Vector2i(100, 130),
                      ShadeSize = sf::Vector2i(100, 128),

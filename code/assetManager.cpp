@@ -6,6 +6,14 @@ AssetManager::AssetManager(const sf::Vector2i windowSize) {
   bool Opened = true;
 
   Opened &= OpenResource(MainFont, "data/Caveat-Font.ttf");
+
+  Opened &= LoadResource(DestroySound, "data/sounds/Click2.wav");
+  Opened &= LoadResource(CardSound, "data/sounds/Highlight2.wav");
+  Opened &= LoadResource(ButtonSound, "data/sounds/Highlight1.wav");
+  Opened &= LoadResource(WinSound, "data/sounds/Win.wav");
+  Opened &= LoadResource(ButtonHighlightSound, "data/sounds/Highlight1.wav");
+  Opened &= LoadResource(CardHighlightSound, "data/sounds/Highlight2.wav");
+
   Opened &= LoadResource(BG, "data/Background.png");
 
   Opened &= RenderResources(windowSize);
@@ -24,6 +32,20 @@ sf::Texture* AssetManager::GetVignette() { return &Vignette; }
 sf::Texture* AssetManager::GetCardShade() { return &Shade; }
 
 sf::Texture* AssetManager::GetCardBack() { return &Back; }
+
+sf::SoundBuffer* AssetManager::GetCardHighlightSound() { return &CardHighlightSound; }
+
+sf::SoundBuffer* AssetManager::GetButtonHighlightSound() {
+  return &ButtonHighlightSound;
+}
+
+sf::SoundBuffer* AssetManager::GetDestroySound() { return &DestroySound; }
+
+sf::SoundBuffer* AssetManager::GetButtonClickSound() { return &ButtonSound; }
+
+sf::SoundBuffer* AssetManager::GetCardClickSound() { return &CardSound; }
+
+sf::SoundBuffer* AssetManager::GetWinSound() { return &WinSound; }
 
 sf::Texture* AssetManager::GetButton() { return &Button; }
 

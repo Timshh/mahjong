@@ -7,6 +7,8 @@ Button::Button(sf::RenderWindow* window, Observer* overseer,
       Manager(manager),
       Type(type),
       Overseer(overseer),
+      ClickSound(*manager->GetButtonClickSound()),
+      HighlightSound(*manager->GetButtonHighlightSound()),
       Back(*manager->GetButton()),
       ButtonText(manager->MainFont, "", 40) {
   Overseer->AddSubscriber(this);
@@ -48,11 +50,13 @@ bool Button::Tick() {
   bool result = false;
   if (IsMouseOnButton()) {
     if (!Overlap) {
+      //HighlightSound.play();
       Overlap = true;
       Back.setColor(HighlightedColor);
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
       if (!Pressed) {
+        ClickSound.play();
         Pressed = true;
         result = true;
         Back.setColor(SelectedColor);
