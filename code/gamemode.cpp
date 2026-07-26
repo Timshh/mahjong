@@ -11,7 +11,6 @@ Gamemode::Gamemode(sf::RenderWindow* window)
       QuitButton(window, &Overseer, &Manager, TextElement::Quit, 850, 800),
       LangButton(window, &Overseer, &Manager, TextElement::Language, 850, 700),
       BG(*Manager.GetBG()),
-      Vignette(*Manager.GetVignette()),
       Overseer(&Manager) {
   BG.setTextureRect({{0,0},{10000, 10000}});
   NameText.setPosition(sf::Vector2f(725, 200));
@@ -114,8 +113,6 @@ void Gamemode::Resize() {
   Overseer.SizeChanged(sf::Vector2f(offsetX, offsetY), mult / 120.,
                        sf::Vector2i(Window->getSize()));
 
-  Vignette.setTextureRect(sf::IntRect(
-      sf::Vector2i(0, 0), sf::Vector2i(Manager.GetVignette()->getSize())));
 }
 
 void Gamemode::DrawBG() {
