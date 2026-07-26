@@ -44,7 +44,7 @@ GameField::~GameField() {
 
 void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
   PairsText.setPosition(
-      sf::Vector2f(35 * mult + offset.x, 160 * mult + offset.y));
+      sf::Vector2f(25 * mult + offset.x, 160 * mult + offset.y));
   PairsText.setCharacterSize(mult * 40);
   WinText.setPosition(
       sf::Vector2f(750 * mult + offset.x, 400 * mult + offset.y));

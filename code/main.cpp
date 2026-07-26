@@ -3,11 +3,11 @@
 
 #include "gamemode.h"
 
-#ifndef _RELEASE
+/* #ifndef _RELEASE
 
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
-#endif 
+#endif */
 
 int main() {
   srand(time(NULL));
