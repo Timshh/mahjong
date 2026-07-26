@@ -147,7 +147,7 @@ bool AssetManager::RenderResources(const sf::Vector2i windowSize) {
   Rendered &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
   Rendered &= LoadSVG(Shade, "data/cards/Shade.svg", ShadeSize);
   Rendered &= LoadSVG(Back, "data/cards/Front.svg", CardSize);
-  Rendered &= LoadSVG(Button, "data/cards/Front.svg", ButtonSize);
+  Rendered &= LoadSVG(Button, "data/cards/Button.svg", ButtonSize);
 
   // Cards
   Rendered &= LoadSVG(FaceTextures[CardTypes::Word1], "data/cards/Word1.svg",

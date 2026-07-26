@@ -15,7 +15,7 @@ struct Form {
 };
 
 inline std::map<MahjongForms, Form> Forms = {
-    {MahjongForms::Turtle, Form(5, 30, 30, 250, 0,
+    {MahjongForms::Turtle, Form(5, 30, 30, 350, 0,
                                 {// Layer 0
 
                                  {4, 0, 0},
@@ -177,4 +177,4 @@ inline std::map<MahjongForms, Form> Forms = {
 
                                  {13, 7, 4}})},
 
-    {MahjongForms::Wave, Form(4, 14, 14, 600, 100, {})}};
+    {MahjongForms::Wave, Form(4, 14, 14, 700, 100, {})}};

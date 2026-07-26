@@ -54,7 +54,7 @@ class AssetManager {
       DestroySound;
 
   const sf::Vector2i CardSize = sf::Vector2i(100, 130),
-                     ShadeSize = sf::Vector2i(100, 128),
+                     ShadeSize = sf::Vector2i(132, 144),
                      ImageSize = sf::Vector2i(69, 92),
-                     ButtonSize = sf::Vector2i(90, 180);
+                     ButtonSize = sf::Vector2i(100, 195);
 };

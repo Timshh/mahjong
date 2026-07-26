@@ -4,7 +4,7 @@ Gamemode::Gamemode(sf::RenderWindow* window)
     : Manager(sf::Vector2i(window->getSize())),
       Window(window),
       NameText(Manager.MainFont, "Mahjong", 140),
-      PauseButton(window, &Overseer, &Manager, TextElement::Pause, 50, 40),
+      PauseButton(window, &Overseer, &Manager, TextElement::Pause, 5, 40),
       ResumeButton(window, &Overseer, &Manager, TextElement::Resume, 850, 400),
       TurtleButton(window, &Overseer, &Manager, TextElement::Turtle, 850, 500),
       WaveButton(window, &Overseer, &Manager, TextElement::Wave, 850, 600),
@@ -13,8 +13,7 @@ Gamemode::Gamemode(sf::RenderWindow* window)
       BG(*Manager.GetBG()),
       Vignette(*Manager.GetVignette()),
       Overseer(&Manager) {
-
-  BG.setColor(sf::Color(127, 127, 127, 255));
+  BG.setTextureRect({{0,0},{10000, 10000}});
   NameText.setPosition(sf::Vector2f(725, 200));
   NameText.setFillColor(sf::Color::Black);
   Resize();

@@ -21,6 +21,7 @@ Button::Button(sf::RenderWindow* window, Observer* overseer,
   ButtonText.setFillColor(sf::Color::Black);
 
   Position = sf::Vector2i(x, y);
+  ButtonText.setLineAlignment(sf::Text::LineAlignment::Center);
   float mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
                            (Window->getSize().y - mult * 9) / 2),
@@ -33,7 +34,7 @@ Button::~Button() { Overseer->RemoveSubscriber(this); }
 void Button::ResetScales(const sf::Vector2f offset, const float mult) {
   Back.setPosition(
       sf::Vector2f(Position.x * mult + offset.x, Position.y * mult + offset.y));
-  ButtonText.setPosition(sf::Vector2f((Position.x + 20) * mult + offset.x,
+  ButtonText.setPosition(sf::Vector2f((Position.x + 85) * mult + offset.x,
                                       (Position.y + 20) * mult + offset.y));
 
   ButtonText.setCharacterSize(mult * 40);

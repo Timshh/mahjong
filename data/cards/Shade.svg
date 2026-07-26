@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="300"
-   height="400"
-   viewBox="0 0 300 400"
+   width="132"
+   height="144"
+   viewBox="0 0 132 144"
    id="svg2"
    version="1.1"
    inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
@@ -35,12 +35,14 @@
        prop_units="false"
        vertical_pattern="false"
        fuse_tolerance="0"
-       pattern-nodetypes="cccc" />
+       pattern-nodetypes="cccc"
+       lpeversion="0"
+       hide_knot="false" />
     <inkscape:path-effect
        effect="skeletal"
        id="path-effect7830"
        is_visible="true"
-       pattern="M -12.828427,33.715729 -17,-11 l 9.0000001,0 z"
+       pattern="M -12.828427,33.715729 -17,-11 h 9.0000001 z"
        copytype="repeated_stretched"
        prop_scale="-1"
        scale_y_rel="false"
@@ -50,7 +52,9 @@
        prop_units="false"
        vertical_pattern="false"
        fuse_tolerance="0"
-       pattern-nodetypes="cccc" />
+       pattern-nodetypes="cccc"
+       lpeversion="0"
+       hide_knot="false" />
     <linearGradient
        id="linearGradient10055"
        inkscape:swatch="solid">
@@ -69,7 +73,7 @@
        inkscape:isstock="true">
       <path
          id="path4978"
-         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#ff5c00;stroke-width:1pt;stroke-opacity:1"
          transform="matrix(0.8,0,0,0.8,10,0)"
          inkscape:connector-curvature="0" />
@@ -78,7 +82,7 @@
        clipPathUnits="userSpaceOnUse"
        id="clipPath4243">
       <circle
-         style="opacity:1;fill:#000000;fill-opacity:0.29670332;fill-rule:nonzero;stroke:#000000;stroke-width:19.13299942;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         style="opacity:1;fill:#000000;fill-opacity:0.296703;fill-rule:nonzero;stroke:#000000;stroke-width:19.133;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="circle4245"
          cx="-264.65997"
          cy="-198.20665"
@@ -99,7 +103,7 @@
        clipPathUnits="userSpaceOnUse"
        id="clipPath4243-1">
       <circle
-         style="opacity:1;fill:#000000;fill-opacity:0.29670332;fill-rule:nonzero;stroke:#000000;stroke-width:19.13299942;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         style="opacity:1;fill:#000000;fill-opacity:0.296703;fill-rule:nonzero;stroke:#000000;stroke-width:19.133;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="circle4245-4"
          cx="-264.65997"
          cy="-198.20665"
@@ -109,7 +113,7 @@
        clipPathUnits="userSpaceOnUse"
        id="clipPath7876">
       <circle
-         style="opacity:1;fill:#000000;fill-opacity:0.29670332;fill-rule:nonzero;stroke:#000000;stroke-width:19.13299942;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         style="opacity:1;fill:#000000;fill-opacity:0.296703;fill-rule:nonzero;stroke:#000000;stroke-width:19.133;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="circle7878"
          cx="-264.65997"
          cy="-198.20665"
@@ -127,7 +131,7 @@
          y="383.49765"
          rx="1.2551664"
          ry="3.7514515"
-         transform="matrix(0.99939083,-0.03489951,0.03489951,0.99939083,0,0)" />
+         transform="rotate(-2.0000008)" />
     </clipPath>
     <clipPath
        clipPathUnits="userSpaceOnUse"
@@ -139,7 +143,7 @@
          cy="647.25604"
          rx="69.057365"
          ry="116.91089"
-         transform="matrix(0.99939083,-0.03489951,0.03489951,0.99939083,0,0)" />
+         transform="rotate(-2.0000008)" />
     </clipPath>
     <pattern
        y="0"
@@ -149,7 +153,7 @@
        patternUnits="userSpaceOnUse"
        id="EMFhbasepattern" />
     <filter
-       style="color-interpolation-filters:sRGB;"
+       style="color-interpolation-filters:sRGB"
        inkscape:label="Blur"
        id="filter4198">
       <feGaussianBlur
@@ -189,7 +193,7 @@
          width="300.05896"
          id="rect4218"
          style="opacity:1;fill:#ff3737;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         transform="scale(-1,-1)" />
+         transform="scale(-1)" />
     </mask>
     <filter
        style="color-interpolation-filters:sRGB"
@@ -217,7 +221,7 @@
        inkscape:label="Blur"
        id="filter4198-8"
        x="-0.024915433"
-       y="-0.054278337"
+       y="-0.054278336"
        width="1.0498309"
        height="1.1085567">
       <feGaussianBlur
@@ -236,7 +240,7 @@
          width="300.05896"
          id="rect4218-5"
          style="opacity:1;fill:#ff3737;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         transform="scale(-1,-1)" />
+         transform="scale(-1)" />
     </mask>
     <filter
        style="color-interpolation-filters:sRGB"
@@ -255,14 +259,14 @@
      borderopacity="1"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8594377"
-     inkscape:cx="43.714888"
-     inkscape:cy="24.305478"
+     inkscape:zoom="2.0219278"
+     inkscape:cx="10.386128"
+     inkscape:cy="77.895957"
      inkscape:document-units="px"
      inkscape:current-layer="g7"
      showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -310,7 +314,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -322,10 +325,17 @@
     <g
        id="g7">
       <path
-         d="M 247.45863,652.56347 H 54.257452 c -27.410517,0 -41.108387,18.96671 -40.121093,35.6289 l -0.578125,305.17037 c 0,0 37.149822,48.33426 74.243135,58.72036 H 234.59961 c 79.31682,0 64.43285,4.2868 64.64358,-72.55688 l 0.78687,-286.93747 c -13.8139,-23.7809 -52.57143,-40.02528 -52.57143,-40.02528 z"
-         style="fill:#c8c8c8"
          id="path5"
-         sodipodi:nodetypes="cscccsscc" />
+         style="fill:#000000;fill-opacity:0.58177572;stroke:none;stroke-width:2.13761;stroke-dasharray:none;stroke-opacity:0.46729"
+         d="m 19.530511,653.05791 c -10.6844376,0 -16.0229622,6.61579 -15.6381214,12.42774 L 3.667044,771.93291 c 0,0 5.4052852,6.29438 12.909426,12.01758 6.263534,7.18227 18.958072,11.94336 18.958072,11.94336 h 75.307978 c 10.68444,0 16.02296,-6.61578 15.63811,-12.42773 l 0.22535,-106.44727 c 0,0 -5.40529,-6.29438 -12.90943,-12.01758 -6.26352,-7.18227 -18.95807,-11.94336 -18.95807,-11.94336 z" />
+      <path
+         id="path2"
+         style="fill:#000000;fill-opacity:0.58177572;stroke:none;stroke-width:2.00229;stroke-dasharray:none;stroke-opacity:0.46729"
+         d="m 22.465566,657.50911 c -9.997576,0 -14.992905,6.20345 -14.6328051,11.65317 L 7.6219032,768.9751 c 0,0 5.0577978,5.90208 12.0795258,11.26857 5.860874,6.73463 17.739328,11.19898 17.739328,11.19898 h 70.466703 c 9.99758,0 14.99291,-6.20344 14.6328,-11.65316 l 0.21086,-99.81283 c 0,0 -5.0578,-5.90208 -12.07953,-11.26857 -5.86087,-6.73463 -17.739325,-11.19898 -17.739325,-11.19898 z" />
+      <path
+         id="path3"
+         style="fill:#000000;fill-opacity:0.58177572;stroke:none;stroke-width:1.82212;stroke-dasharray:none;stroke-opacity:0.46729"
+         d="m 25.400621,664.92777 c -9.310712,0 -13.962849,5.51623 -13.627489,10.36222 l -0.196371,88.75543 c 0,0 4.710313,5.24824 11.249627,10.02022 5.458214,5.98856 16.520584,9.95835 16.520584,9.95835 H 104.9724 c 9.31072,0 13.96285,-5.51622 13.6275,-10.36221 l 0.19636,-88.75544 c 0,0 -4.71032,-5.24824 -11.24964,-10.02022 -5.4582,-5.98856 -16.52057,-9.95835 -16.52057,-9.95835 z" />
     </g>
   </g>
 </svg>

@@ -10,8 +10,8 @@ GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
       WinText(manager->MainFont, "", 120),
       WinSound(*manager->GetWinSound()),
       DestroySound(*manager->GetDestroySound()),
-      HintButton(window, overseer, manager, TextElement::Hint, 50, 240),
-      RefreshButton(window, overseer, manager, TextElement::Refresh, 50, 340) {
+      HintButton(window, overseer, manager, TextElement::Hint, 5, 240),
+      RefreshButton(window, overseer, manager, TextElement::Refresh, 5, 340) {
   Overseer->AddSubscriber(this);
   GenerateField();
   CheckPairs();
@@ -44,7 +44,7 @@ GameField::~GameField() {
 
 void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
   PairsText.setPosition(
-      sf::Vector2f(60 * mult + offset.x, 155 * mult + offset.y));
+      sf::Vector2f(35 * mult + offset.x, 160 * mult + offset.y));
   PairsText.setCharacterSize(mult * 40);
   WinText.setPosition(
       sf::Vector2f(750 * mult + offset.x, 400 * mult + offset.y));
