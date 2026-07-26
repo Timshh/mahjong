@@ -1,13 +1,18 @@
-﻿#include <SFML/Graphics.hpp>
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <ctime>
 
 #include "gamemode.h"
 
+#ifndef _RELEASE
+
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
+#endif 
+
 int main() {
   srand(time(NULL));
 
-  sf::RenderWindow Window(sf::VideoMode({1920, 1080}), "Mahjong",
+  sf::RenderWindow Window(sf::VideoMode({800, 600}), "Mahjong",
                           sf::State::Windowed);
   Gamemode GM = Gamemode(&Window);
 
@@ -21,6 +26,7 @@ int main() {
       }
     }
     GM.Tick();
+    GM.Draw();
   }
   return 0;
 }

@@ -1,27 +1,26 @@
 ﻿#include "card.h"
 
-Card::Card(sf::RenderWindow* window, AssetManager* manager,
+Card::Card(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
            const CardTypes type)
     : Actor(window),
-      Shadow(*manager->GetCardShadow()),
-      Edge(*manager->GetCardShadow()),
+      Manager(manager),
+      Type(type),
+      Overseer(overseer),
+      ImageOffset(manager->ImageOffset),
+      ShadeOffset(manager->ShadeOffset),
+      BackOffset(manager->BackOffset),
+      HighlightSound(*manager->GetCardHighlightSound()),
+      ClickSound(*manager->GetCardClickSound()),
+      Shade(*manager->GetCardShade()),
       Back(*manager->GetCardBack()),
       Face(*manager->GetCard(type)) {
-  Manager = manager;
-  Manager->AddSubscriber(this);
-  Type = type;
+  Overseer->AddSubscriber(this);
 
   Back.setColor(NormalColor);
-  Edge.setColor(sf::Color(150, 150, 150, 255));
-  Shadow.setColor(sf::Color(50, 50, 50, 255));
-
-  ImageOffset = manager->ImageOffset;
-  ShadowOffset = manager->ShadowOffset;
-  EdgeOffset = manager->EdgeOffset;
-  BackOffset = manager->BackOffset;
+  Shade.setColor(sf::Color(20, 20, 20, 155));
 }
 
-Card::~Card() { Manager->RemoveSubscriber(this); }
+Card::~Card() { Overseer->RemoveSubscriber(this); }
 
 CardTypes Card::GetType() { return Type; }
 
@@ -31,31 +30,17 @@ void Card::ResetScales(const sf::Vector2f offset, const float mult) {
   }
   Back.setPosition(sf::Vector2f((PosX + BackOffset.x) * mult + offset.x,
                                 (PosY + BackOffset.y) * mult + offset.y));
-  Edge.setPosition(sf::Vector2f((PosX + EdgeOffset.x) * mult + offset.x,
-                                (PosY + EdgeOffset.y) * mult + offset.y));
   Face.setPosition(sf::Vector2f((PosX + ImageOffset.x) * mult + offset.x,
                                 (PosY + ImageOffset.y) * mult + offset.y));
-  Shadow.setPosition(sf::Vector2f((PosX + ShadowOffset.x) * mult + offset.x,
-                                  (PosY + ShadowOffset.y) * mult + offset.y));
+  Shade.setPosition(sf::Vector2f((PosX + ShadeOffset.x) * mult + offset.x,
+                                 (PosY + ShadeOffset.y) * mult + offset.y));
 
-  Shadow.setTextureRect(
-      sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShadow()->getSize())));
-  Edge.setTextureRect(sf::IntRect(
-      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShadow()->getSize())));
+  Shade.setTextureRect(sf::IntRect(
+      sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardShade()->getSize())));
   Back.setTextureRect(sf::IntRect(
       sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCardBack()->getSize())));
   Face.setTextureRect(sf::IntRect(
       sf::Vector2i(0, 0), sf::Vector2i(Manager->GetCard(Type)->getSize())));
-
-  /* Shadow.setTexture(*Manager->GetCardShadow());
-  Edge.setTexture(*Manager->GetCardShadow());
-  Back.setTexture(*Manager->GetCardBack());
-  Face.setTexture(*Manager->GetCard(Type));
-
-  Back.setScale(sf::Vector2f(mult, mult));
-  Edge.setScale(sf::Vector2f(mult, mult));
-  Face.setScale(sf::Vector2f(mult, mult));
-  Shadow.setScale(sf::Vector2f(mult, mult));*/
 }
 
 bool Card::Tick(const bool reachable, const bool click) {
@@ -71,15 +56,18 @@ bool Card::Tick(const bool reachable, const bool click) {
       }
     }
   }
-  Window->draw(Shadow);
-  Window->draw(Edge);
-  Window->draw(Back);
-  Window->draw(Face);
-  if (State == CardStates::Highlighted) {
-    ChangeState(CardStates::Idle);
-  }
   return result;
 }
+
+void Card::Draw() {
+  Window->draw(Back);
+  Window->draw(Face);
+  if (State == CardStates::Highlighted and !IsMouseOnCard()) {
+    ChangeState(CardStates::Idle);
+  }
+}
+
+void Card::ShadeTick() { Window->draw(Shade); }
 
 void Card::SetLocation(const float x, const float y,
                        const sf::Vector2i coords) {
@@ -120,9 +108,11 @@ void Card::ChangeState(CardStates state) {
       Back.setColor(HintedColor);
       break;
     case CardStates::Selected:
+      ClickSound.play();
       Back.setColor(SelectedColor);
       break;
     case CardStates::Highlighted:
+      //HighlightSound.play();
       Back.setColor(HighlightedColor);
       break;
   }

@@ -1,15 +1,16 @@
 ﻿#pragma once
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "assetManager.h"
 #include "button.h"
-#include "forms.h"
+#include "observer.h"
 #include "gameField.h"
 
 class Gamemode {
  public:
   Gamemode(sf::RenderWindow* window);
   void Tick();
+  void Draw();
   void Resize();
 
  private:
@@ -19,9 +20,10 @@ class Gamemode {
   bool CanEscape = true;
   float TimeDelta = 0;
 
+  Observer Overseer;
   sf::Text NameText;
   sf::Vector2f OffsetMain = sf::Vector2f(0, 0), OffsetSub = sf::Vector2f(0, 0);
-  sf::Sprite BG;
+  sf::Sprite BG, Vignette;
   sf::Clock Time;
   AssetManager Manager;
   GameStates State = GameStates::Pause;

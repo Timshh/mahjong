@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <SFML/Graphics/Sprite.hpp>
 #include <map>
 
 enum class GameStates { Idle, Pause };
@@ -47,10 +48,10 @@ enum class CardTypes {
 
 enum class CardStates { Idle, Highlighted, Selected, Hinted };
 
-const sf::Color NormalColor = sf::Color(230, 230, 230, 255),
-                HighlightedColor = sf::Color(230, 230, 210, 255),
-                SelectedColor = sf::Color(230, 230, 190, 255),
-                HintedColor = sf::Color(230, 230, 170, 255);
+const sf::Color NormalColor = sf::Color(255, 255, 255, 255),
+                HighlightedColor = sf::Color(255, 255, 230, 255),
+                SelectedColor = sf::Color(255, 255, 200, 255),
+                HintedColor = sf::Color(255, 255, 170, 255);
 
 enum class Language { Russian, English };
 
@@ -63,7 +64,8 @@ enum class TextElement {
   Refresh,
   Hint,
   Language,
-  Quit
+  Quit, 
+  Victory
 };
 
 struct LanguageSet {
@@ -76,12 +78,13 @@ struct LanguageSet {
   std::u8string HintText;
   std::u8string LanguageText;
   std::u8string QuitText;
+  std::u8string WinText;
 };
 
 inline std::map<Language, LanguageSet> Languages = {
     {Language::Russian,
-     {u8"Вернуться", u8"Пауза", u8"Черепаха", u8"Волна", u8"Пары:",
-      u8"Смешать", u8"Подсказка", u8"Rus", u8"Выйти"}},
+     {u8"Вернуться", u8"Пауза", u8"Черепаха", u8"Волна", u8"Пары: ", u8"Смешать",
+      u8"Подсказка", u8"Rus", u8"Выйти", u8"Победа!"}},
     {Language::English,
-     {u8"Resume", u8"Pause", u8"Turtle", u8"Wave", u8"Pairs:", u8"Refresh",
-      u8"Hint", u8"Eng", u8"Quit"}}};
+     {u8"Resume", u8"Pause", u8"Turtle", u8"Wave", u8"Pairs: ", u8"Refresh",
+      u8"Hint", u8"Eng", u8"Quit", u8"Victory!"}}};

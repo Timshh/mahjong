@@ -14,13 +14,13 @@ project (${PROJECT_NAME})
 include(FetchContent)
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.2
+    GIT_TAG 3.1.0
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM)
 FetchContent_Declare(lunasvg
     GIT_REPOSITORY https://github.com/sammycage/lunasvg.git
-    GIT_TAG master
+    GIT_TAG v3.5.0
 )
 
 FetchContent_MakeAvailable(SFML)
@@ -33,14 +33,16 @@ set (SOURCES
 "code/button.cpp"
 "code/assetManager.cpp"
 "code/gameField.cpp"
-"code/gamemode.cpp")
+"code/gamemode.cpp"
+"code/observer.cpp")
 set (HEADERS 
 "code/actor.h"
 "code/card.h"
 "code/button.h"
 "code/assetManager.h"
 "code/gameField.h"
-"code/gamemode.h")
+"code/gamemode.h"
+"code/observer.h")
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)

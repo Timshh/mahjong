@@ -1,13 +1,17 @@
 ﻿#include "button.h"
 
-Button::Button(sf::RenderWindow* window, AssetManager* manager,
+Button::Button(sf::RenderWindow* window, Observer* overseer,
+               AssetManager* manager,
                const TextElement type, const float x, const float y)
     : Actor(window),
+      Manager(manager),
+      Type(type),
+      Overseer(overseer),
+      ClickSound(*manager->GetButtonClickSound()),
+      HighlightSound(*manager->GetButtonHighlightSound()),
       Back(*manager->GetButton()),
       ButtonText(manager->MainFont, "", 40) {
-  Type = type;
-  Manager = manager;
-  Manager->AddSubscriber(this);
+  Overseer->AddSubscriber(this);
   Back.setColor(NormalColor);
 
   Back.setColor(sf::Color(230, 230, 230, 255));
@@ -17,6 +21,7 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
   ButtonText.setFillColor(sf::Color::Black);
 
   Position = sf::Vector2i(x, y);
+  ButtonText.setLineAlignment(sf::Text::LineAlignment::Center);
   float mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
                            (Window->getSize().y - mult * 9) / 2),
@@ -24,12 +29,12 @@ Button::Button(sf::RenderWindow* window, AssetManager* manager,
   ChangeLanguage();
 }
 
-Button::~Button() { Manager->RemoveSubscriber(this); }
+Button::~Button() { Overseer->RemoveSubscriber(this); }
 
 void Button::ResetScales(const sf::Vector2f offset, const float mult) {
   Back.setPosition(
       sf::Vector2f(Position.x * mult + offset.x, Position.y * mult + offset.y));
-  ButtonText.setPosition(sf::Vector2f((Position.x + 20) * mult + offset.x,
+  ButtonText.setPosition(sf::Vector2f((Position.x + 85) * mult + offset.x,
                                       (Position.y + 20) * mult + offset.y));
 
   ButtonText.setCharacterSize(mult * 40);
@@ -46,11 +51,13 @@ bool Button::Tick() {
   bool result = false;
   if (IsMouseOnButton()) {
     if (!Overlap) {
+      //HighlightSound.play();
       Overlap = true;
       Back.setColor(HighlightedColor);
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
       if (!Pressed) {
+        ClickSound.play();
         Pressed = true;
         result = true;
         Back.setColor(SelectedColor);
@@ -65,10 +72,12 @@ bool Button::Tick() {
       Back.setColor(NormalColor);
     }
   }
+  return result;
+}
+
+void Button::Draw() {
   Window->draw(Back);
   Window->draw(ButtonText);
-
-  return result;
 }
 
 bool Button::IsMouseOnButton() {

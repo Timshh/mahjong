@@ -1,53 +1,60 @@
 ﻿#pragma once
 #include <lunasvg.h>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <iostream>
 
-#include "actor.h"
 #include "data.h"
 
 class AssetManager {
  public:
-  AssetManager(const sf::Vector2f windowSize);
+  AssetManager(const sf::Vector2i windowSize);
 
-  void AddSubscriber(Actor* subscriber);
-  void RemoveSubscriber(Actor* subscriber);
   sf::Texture* GetBG();
-  sf::Texture* GetCardShadow();
+  sf::Texture* GetVignette();
+  sf::Texture* GetCardShade();
   sf::Texture* GetCardBack();
+  sf::SoundBuffer* GetCardHighlightSound();
+  sf::SoundBuffer* GetButtonHighlightSound();
+  sf::SoundBuffer* GetDestroySound();
+  sf::SoundBuffer* GetButtonClickSound();
+  sf::SoundBuffer* GetCardClickSound();
+  sf::SoundBuffer* GetWinSound();
   sf::Texture* GetCard(const CardTypes type);
   sf::Texture* GetButton();
   std::u8string GetText(const TextElement elem);
-  void SizeChanged(const sf::Vector2f offset, const float mult);
+  void SizeChanged(const sf::Vector2f offset, const float mult,
+                   const sf::Vector2i windowSize);
   void SwapLanguage();
 
   sf::Font MainFont;
   sf::Texture Empty;
 
   const sf::Vector2f ImageOffset = sf::Vector2f(10.5, 14),
-                     EdgeOffset = sf::Vector2f(0, 0),
-                     ShadowOffset = sf::Vector2f(5, 5),
-                     BackOffset = sf::Vector2f(2, 2);
+                     ShadeOffset = sf::Vector2f(-16, -8),
+                     BackOffset = sf::Vector2f(0, 0);
 
  private:
   bool LoadResource(auto& resource, const std::string& path);
   bool LoadSVG(auto& resource, const std::string& path,
                const sf::Vector2i size);
   bool OpenResource(auto& resource, const std::string& path);
-  bool RenderResources();
+  bool RenderResources(const sf::Vector2i windowSize);
 
   float Mult = 1;
   Language Lang = Language::Russian;
   LanguageSet CurrentLanguage = Languages[Language::Russian];
-  std::vector<Actor*> Subscribers;
-  sf::Texture Shadow, Back, Button, Word1, Word2, Word3, Word4, Word5, Word6,
-      Word7, Word8, Word9, Word10, Num1, Num2, Num3, Num4, Num5, Num6, Num7,
-      Num8, Num9, Num10, Pin1, Pin2, Pin3, Pin4, Pin5, Pin6, Pin7, Pin8, Pin9,
-      Pin10, One, Two, Three, Four, Five, Six, BG;
+  std::map<CardTypes, sf::Texture> FaceTextures;
+  sf::Texture Vignette, Shade, Back, Button, BG;
+  sf::SoundBuffer ButtonHighlightSound, CardHighlightSound, CardSound, WinSound,
+      ButtonSound,
+      DestroySound;
 
-  const sf::Vector2i CardSize = sf::Vector2i(90, 120),
-                     ShadowSize = sf::Vector2i(96, 126),
+  const sf::Vector2i CardSize = sf::Vector2i(100, 130),
+                     ShadeSize = sf::Vector2i(132, 144),
                      ImageSize = sf::Vector2i(69, 92),
-                     ButtonSize = sf::Vector2i(90, 180);
+                     ButtonSize = sf::Vector2i(100, 195);
 };

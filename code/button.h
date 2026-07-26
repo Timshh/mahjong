@@ -1,24 +1,31 @@
 ﻿#pragma once
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include "actor.h"
+#include "observer.h"
 #include "assetManager.h"
 
 class Button : public Actor {
  public:
-  Button(sf::RenderWindow* window, AssetManager* manager, const TextElement type,
+  Button(sf::RenderWindow* window, Observer* overseer, AssetManager* manager,
+         const TextElement type,
          const float x, const float y);
   ~Button();
 
   void ResetScales(const sf::Vector2f offset, const float mult) override;
   void ChangeLanguage() override;
   bool Tick();
+  void Draw();
 
  private:
   bool IsMouseOnButton();
 
+  Observer* Overseer;
   TextElement Type;
   AssetManager* Manager;
   bool Pressed = false, Overlap = false;
   sf::Vector2i Position;
+  sf::Sound ClickSound, HighlightSound;
   sf::Text ButtonText;
   sf::Sprite Back;
 };

@@ -1,18 +1,25 @@
 ﻿#include "gameField.h"
 
-GameField::GameField(sf::RenderWindow* const window,
+GameField::GameField(sf::RenderWindow* const window, Observer* overseer,
                      AssetManager* const manager, const MahjongForms form)
     : Actor(window),
+      Manager(manager),
+      Form(form),
+      Overseer(overseer),
       PairsText(manager->MainFont, "", 40),
-      HintButton(window, manager, TextElement::Hint, 50, 240),
-      RefreshButton(window, manager, TextElement::Refresh, 50, 340) {
-  manager->AddSubscriber(this);
-  Manager = manager;
-  Form = form;
+      WinText(manager->MainFont, "", 120),
+      WinSound(*manager->GetWinSound()),
+      DestroySound(*manager->GetDestroySound()),
+      HintButton(window, overseer, manager, TextElement::Hint, 5, 240),
+      RefreshButton(window, overseer, manager, TextElement::Refresh, 5, 340) {
+  Overseer->AddSubscriber(this);
   GenerateField();
   CheckPairs();
   PairsLang = manager->GetText(TextElement::Pairs);
   PairsText.setFillColor(sf::Color::Black);
+  std::u8string wintext = Manager->GetText(TextElement::Victory);
+  WinText.setString(sf::String::fromUtf8(wintext.begin(), wintext.end()));
+  WinText.setFillColor(sf::Color::Black);
 
   int mult = std::min(Window->getSize().x / 16, Window->getSize().y / 9);
   ResetScales(sf::Vector2f((Window->getSize().x - mult * 16) / 2,
@@ -20,67 +27,115 @@ GameField::GameField(sf::RenderWindow* const window,
               mult / 120.);
 }
 
+GameField::~GameField() {
+  for (int z = 0; z < Cards.size(); ++z) {
+    for (int x = 0; x < FieldWidth; ++x) {
+      for (int y = 0; y < FieldWidth; ++y) {
+        if (Cards[z][y][x]) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x - 1, y - 1)) {
+            delete Cards[z][y][x];
+          }
+        }
+      }
+    }
+  }
+  Overseer->RemoveSubscriber(this);
+}
+
 void GameField::ResetScales(const sf::Vector2f offset, const float mult) {
   PairsText.setPosition(
-      sf::Vector2f(60 * mult + offset.x, 155 * mult + offset.y));
+      sf::Vector2f(35 * mult + offset.x, 160 * mult + offset.y));
   PairsText.setCharacterSize(mult * 40);
+  WinText.setPosition(
+      sf::Vector2f(750 * mult + offset.x, 400 * mult + offset.y));
+  WinText.setCharacterSize(mult * 120);
 }
 
 void GameField::ChangeLanguage() {
   PairsLang = Manager->GetText(TextElement::Pairs);
+  std::u8string wintext = Manager->GetText(TextElement::Victory);
+  WinText.setString(sf::String::fromUtf8(wintext.begin(), wintext.end()));
 }
 
 void GameField::Tick() {
-  if (State == FieldStates::Idle) {
-    if (RefreshButton.Tick()) {
-      Refresh();
-    }
-
-    if (HintButton.Tick()) {
-      Hint();
-    }
-
-    Clicked = false;
-
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-      if (CanClick) {
-        Clicked = true;
-        CanClick = false;
+  switch (State) {
+    case FieldStates::Idle:
+      if (RefreshButton.Tick()) {
+        Refresh();
       }
-    } else {
-      CanClick = true;
-    }
 
-    for (int z = 0; z < Cards.size(); ++z) {
-      for (int x = 0; x < FieldWidth; ++x) {
-        for (int y = 0; y < FieldWidth; ++y) {
-          if (Cards[z][y][x]) {
-            if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
-              if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
-                Click(z, y, x, true);
-                Clicked = false;
+      if (HintButton.Tick()) {
+        Hint();
+      }
+
+      Clicked = false;
+
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        if (CanClick) {
+          Clicked = true;
+          CanClick = false;
+        }
+      } else {
+        CanClick = true;
+      }
+
+      for (int z = 0; z < Cards.size(); ++z) {
+        for (int x = 0; x < FieldWidth; ++x) {
+          for (int y = 0; y < FieldWidth; ++y) {
+            if (Cards[z][y][x]) {
+              if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+                if (Cards[z][y][x]->Tick(CheckReachable(z, y, x), Clicked)) {
+                  Click(z, y, x, true);
+                  Clicked = false;
+                }
               }
             }
           }
         }
       }
-    }
-    if (Clicked) {
-      Click(0, 0, 0, false);
-    }
-  } else {
-    RefreshButton.Tick();
-    HintButton.Tick();
+      if (Clicked) {
+        Click(0, 0, 0, false);
+      }
+      break;
+    case FieldStates::Finished:
+      RefreshButton.Tick();
+      HintButton.Tick();
+      break;
   }
-
-  TickDraw();
+  std::string num = std::to_string(Pairs);
+  std::u8string num8(num.begin(), num.end());
+  std::u8string result = PairsLang + num8;
+  PairsText.setString(sf::String::fromUtf8(result.begin(), result.end()));
 }
 
-void GameField::TickDraw() {
-  std::string num = std::to_string(Pairs);
-  std::u8string result = PairsLang + std::u8string(reinterpret_cast<const char8_t*>(num.size(), num.data()));
-  PairsText.setString(sf::String::fromUtf8(result.begin(),result.end()));
+void GameField::Draw() {
+  RefreshButton.Draw();
+  HintButton.Draw();
+
   Window->draw(PairsText);
+  if (State == FieldStates::Finished) {
+    Window->draw(WinText);
+  }
+  for (int z = 0; z < Cards.size(); ++z) {
+    for (int x = 0; x < FieldWidth; ++x) {
+      for (int y = 0; y < FieldWidth; ++y) {
+        if (Cards[z][y][x]) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+            Cards[z][y][x]->ShadeTick();
+          }
+        }
+      }
+    }
+    for (int x = 0; x < FieldWidth; ++x) {
+      for (int y = 0; y < FieldWidth; ++y) {
+        if (Cards[z][y][x]) {
+          if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
+            Cards[z][y][x]->Draw();
+          }
+        }
+      }
+    }
+  }
 }
 
 void GameField::Click(const int cardZ, const int cardX, const int cardY,
@@ -91,6 +146,7 @@ void GameField::Click(const int cardZ, const int cardX, const int cardY,
         return;
       }
       if (SelectedCard->GetType() == Cards[cardZ][cardX][cardY]->GetType()) {
+        DestroySound.play();
         delete SelectedCard;
         delete Cards[cardZ][cardX][cardY];
 
@@ -127,12 +183,14 @@ void GameField::Click(const int cardZ, const int cardX, const int cardY,
 
 void GameField::CheckPairs() {
   Pairs = 0;
+  bool isempty = true;
   std::vector<int> pairVector;
   pairVector.resize(static_cast<int>(CardTypes::COUNT));
   for (int z = 0; z < Cards.size(); ++z) {
     for (int y = 0; y < Cards[z].size(); ++y) {
       for (int x = 0; x < Cards[z][y].size(); ++x) {
         if (Cards[z][y][x]) {
+          isempty = false;
           if (Cards[z][y][x]->Coords == sf::Vector2i(x, y)) {
             if (CheckReachable(z, y, x)) {
               pairVector[static_cast<int>(Cards[z][y][x]->GetType())] += 1;
@@ -141,6 +199,10 @@ void GameField::CheckPairs() {
         }
       }
     }
+  }
+  if (isempty) {
+    WinSound.play();
+    State = FieldStates::Finished;
   }
   for (int i : pairVector) {
     Pairs += i / 2;
@@ -291,7 +353,7 @@ void GameField::GenerateField() {
       int id = rand() % coords.size();
       sf::Vector3i currCoord = coords[id];
       Cards[currCoord.z][currCoord.y][currCoord.x] =
-          new Card(Window, Manager, currType);
+          new Card(Window, Overseer, Manager, currType);
       Cards[currCoord.z][currCoord.y][currCoord.x]->SetLocation(
           currCoord.x * CardSizeX + FieldOffsetX - currCoord.z * CardOffsetZX +
               OffsetX,
