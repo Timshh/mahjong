@@ -14,7 +14,6 @@ class AssetManager {
   AssetManager(const sf::Vector2i windowSize);
 
   sf::Texture* GetBG();
-  sf::Texture* GetVignette();
   sf::Texture* GetCardShade();
   sf::Texture* GetCardBack();
   sf::SoundBuffer* GetCardHighlightSound();
@@ -48,7 +47,7 @@ class AssetManager {
   Language Lang = Language::Russian;
   LanguageSet CurrentLanguage = Languages[Language::Russian];
   std::map<CardTypes, sf::Texture> FaceTextures;
-  sf::Texture Vignette, Shade, Back, Button, BG;
+  sf::Texture Shade, Back, Button, BG;
   sf::SoundBuffer ButtonHighlightSound, CardHighlightSound, CardSound, WinSound,
       ButtonSound,
       DestroySound;

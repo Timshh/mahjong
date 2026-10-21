@@ -23,7 +23,7 @@ class Gamemode {
   Observer Overseer;
   sf::Text NameText;
   sf::Vector2f OffsetMain = sf::Vector2f(0, 0), OffsetSub = sf::Vector2f(0, 0);
-  sf::Sprite BG, Vignette;
+  sf::Sprite BG;
   sf::Clock Time;
   AssetManager Manager;
   GameStates State = GameStates::Pause;

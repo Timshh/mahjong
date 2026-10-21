@@ -27,8 +27,6 @@ sf::Texture* AssetManager::GetCard(const CardTypes type) {
   return &FaceTextures[type];
 }
 
-sf::Texture* AssetManager::GetVignette() { return &Vignette; }
-
 sf::Texture* AssetManager::GetCardShade() { return &Shade; }
 
 sf::Texture* AssetManager::GetCardBack() { return &Back; }
@@ -141,10 +139,8 @@ bool AssetManager::OpenResource(auto& resource, const std::string& path) {
 bool AssetManager::RenderResources(const sf::Vector2i windowSize) {
   bool Rendered = true;
 
-  Rendered &= LoadSVG(Vignette, "data/Vignette.svg", windowSize);
-
   // Backs
-  Rendered &= LoadSVG(Empty, "data/cards/Back.svg", CardSize);
+  Rendered &= LoadSVG(Empty, "data/cards/Shade.svg", CardSize);
   Rendered &= LoadSVG(Shade, "data/cards/Shade.svg", ShadeSize);
   Rendered &= LoadSVG(Back, "data/cards/Front.svg", CardSize);
   Rendered &= LoadSVG(Button, "data/cards/Button.svg", ButtonSize);
